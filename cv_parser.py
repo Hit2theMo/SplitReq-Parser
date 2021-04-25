@@ -1,16 +1,24 @@
+import pdfminer
 import os
 import re
 
-import PyPDF2
+# import PyPDF2
 from docx import Document
-from PyPDF2 import PdfFileReader
+# from PyPDF2 import PdfFileReader
 
 import nltk
 import pandas as pd
 import textract
-
+from pprint import pprint
 # nltk.download('punkt', quiet=True)
 # nltk.download('averaged_perceptron_tagger', quiet=True)
+
+# ------------------------------------
+# PDFs - PDFPlumber
+# DOCX - Textract (Docx2txt)
+# DOC - Textract (antiword)
+# ------------------------------------
+
 ######################################################################
 # USE THIS FUNCTION ONLY IF  file_To_Text() DOESNT WORK FOR PDF FILES
 
@@ -26,69 +34,13 @@ def pdf_To_Text(path):
 ######################################################################
 
 
-def file_To_Text(path):
-    text = textract.process(path)
+def file_To_Text(path, method):
+    if method:
+        text = textract.process(path, method=method)
+    else:
+        text = textract.process(path)
     return text.decode("utf-8")
 
-# ----------------------------------------------------------------------------------------------------
-# Function to extract the font names from PDF files
-
-
-def extract_font_pdf(fname):
-    def walk(obj, fnt, emb):
-        if not hasattr(obj, 'keys'):
-            return None, None
-        fontkeys = set(['/FontFile', '/FontFile2', '/FontFile3'])
-        if '/BaseFont' in obj:
-            fnt.add(obj['/BaseFont'])
-        if '/FontName' in obj:
-            if [x for x in fontkeys if x in obj]:  # test to see if there is FontFile
-                emb.add(obj['/FontName'])
-        for k in obj.keys():
-            walk(obj[k], fnt, emb)
-        return fnt, emb
-
-    pdf = PdfFileReader(fname)
-    fonts = set()
-    embedded = set()
-    for page in pdf.pages:
-        obj = page.getObject()
-        if type(obj) == PyPDF2.generic.ArrayObject:
-            for i in obj:
-                if hasattr(i, 'keys'):
-                    f, e = walk(i, fonts, embedded)
-                    fonts = fonts.union(f)
-                    embedded = embedded.union(e)
-        else:
-            f, e = walk(obj['/Resources'], fonts, embedded)
-            fonts = fonts.union(f)
-            embedded = embedded.union(e)
-
-    font = sorted(list(fonts))
-    for i in range(len(font)):
-        font[i] = font[i].rstrip("MT")
-        font[i] = font[i].lstrip("/")
-    return font
-
-# ----------------------------------------------------------------------------------------------------
-# Function to extract the font name, font size, number of tables, images from a docx file
-
-
-def extract_font_table_imgs_docx(path):
-    doc = Document(path)
-    font = []
-    for p in doc.paragraphs:
-        for r in p.runs:
-            name = r.font.name
-            size = r.font.size
-            if size is not None:
-                size = size / 12700
-            if name is not None:
-                if (name, size) not in font:
-                    font.append((name, size))
-    table_count = len(doc.tables)
-    img_count = len(doc.inline_shapes)
-    return font, table_count, img_count
 
 # ----------------------------------------------------------------------------------------------------
 # Function to extract email ids from both PDF and DOCX files
@@ -133,8 +85,8 @@ def extract_Linkedin(txt):
 def extract_name(document):
 
     # Reads Indian Names from the file, reduce all to lower case for easy comparision [Name lists]
-    indianNames = open(r"indian_names.txt", "r").read().lower()
-    indianNames = set(indianNames.split())
+    # indianNames = open(r"indian_names.txt", "r").read().lower()
+    # indianNames = set(indianNames.split())
     otherNameHits = []
     nameHits = []
     name = None
@@ -167,7 +119,9 @@ def extract_name(document):
         for subtree in chunked_tokens.subtrees():
             if subtree.label() == 'NAME':
                 for ind, leaf in enumerate(subtree.leaves()):
-                    if leaf[0].lower() in indianNames and 'NN' in leaf[1]:
+                    # if leaf[0].lower() in indianNames and 'NN' in leaf[1]:
+                    if 'NN' in leaf[1]:
+
                         hit = " ".join([el[0]
                                         for el in subtree.leaves()[ind:ind + 3]])
                         if re.compile(r'[\d,:]').search(hit):
@@ -186,15 +140,11 @@ def extract_name(document):
 
 def extract_info(path):
     file_name, file_extension = os.path.splitext(path)
-    if file_extension == ".pdf":
+    if file_extension in (".docx", ".doc"):
         txt = file_To_Text(path)
-        font = extract_font_pdf(path)
-        table_count = "NA"
-        img_count = "NA"
+    if file_extension == '.pdf':
+        txt = file_To_Text(path, method='pdfminer')
 
-    elif file_extension == ".docx":
-        txt = file_To_Text(path)
-        font, table_count, img_count = extract_font_table_imgs_docx(path)
     else:
         return "Invalid Format"
 
@@ -202,9 +152,6 @@ def extract_info(path):
     mobile = extract_mobile_number(txt)
     email = extract_emails(txt)
     name = extract_name(txt)[0]
-    lines = len(txt.split("\n"))
-    words = len(txt.split())
-    chars = len(txt)
 
     data = [{
         "File Name": file_name + file_extension,
@@ -212,17 +159,33 @@ def extract_info(path):
             "Contact Number": str(mobile),
             "Email ID(s)": str(email),
             "Linkedin URL": str(linkedin),
-            "Total Lines": lines,
-            "Total Characters": chars,
-            "Total Words": words,
-            "Fonts and Font sizes used": font,
-            "Total number of Tables": table_count,
-            "Total number of Images": img_count
             }]
     df = pd.DataFrame(data)
     return df
 
 
 # ----------------------------------------------------------------------------------------------------
-print("hello")
-print(extract_font_table_imgs_docx("EY_Kitman Tsang_Cosec Mgr.docx"))
+path = r'resumes\Other\non_indian_cvs\EY_Kitman Tsang_Cosec Mgr.docx'
+# path = 'resumes\Other\non_indian_cvs\DwightIT-QA-Analyst_layout.pdf'
+path = r'resumes\best\Arindam_Presales.docx'
+path1 = r'resumes\sample_CVs\Resume_1.docx'
+path = r'resumes\sample_CVs\Resume_1.pdf'
+path = r'C:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resumes\sample_CVs\Resume_1.pdf'
+path = r'resumes\Resumes_latest\2MichaelFarros.doc'
+path = r'resumes\Resumes_latest\Lawrence Acosta.docx'
+# path = 'C:\\2MichaelFarros.doc'
+# text = file_To_Text(path)
+# text = pdf_To_Text(path)
+# text = text.replace('\n', '')
+# print(text)
+# print()
+# # text1 = file_To_Text(path1, method='')
+# # text1 = text1.replace('\n', ' ')
+
+# # print(text1)
+# text1 = pdfminer.high_level.extract_text(path)
+# print(text1)
+# df = extract_info(path)
+# pprint(df)
+text = textract.process(path)
+print(text.decode("utf-8"))
