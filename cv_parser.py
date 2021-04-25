@@ -2,9 +2,7 @@ import pdfminer
 import os
 import re
 
-# import PyPDF2
 from docx import Document
-# from PyPDF2 import PdfFileReader
 
 import nltk
 import pandas as pd
@@ -18,20 +16,6 @@ from pprint import pprint
 # DOCX - Textract (Docx2txt)
 # DOC - Textract (antiword)
 # ------------------------------------
-
-######################################################################
-# USE THIS FUNCTION ONLY IF  file_To_Text() DOESNT WORK FOR PDF FILES
-
-
-def pdf_To_Text(path):
-    pdfFileObj = open(path, 'rb')
-    pdfReader = PdfFileReader(pdfFileObj)
-    pageObj = pdfReader.getPage(0)
-    txt = pageObj.extractText()
-    pdfFileObj.close()
-    return txt
-
-######################################################################
 
 
 def file_To_Text(path, method):
