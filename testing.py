@@ -21,7 +21,7 @@ path = r'resumes\sample_CVs\my_resume.pdf'
 path = r'resumes\Resumes_latest\2MichaelFarros.doc'
 path = r'resumes\Resumes_latest\Lawrence Acosta.docx'
 path = r'resumes\Resumes_latest\Kevin_Resumev2.docx'
-# Pdf miner
+
 
 # ------------------------------------
 # PDFs - PDFPlumber

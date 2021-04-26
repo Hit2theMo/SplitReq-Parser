@@ -18,14 +18,6 @@ from pprint import pprint
 # ------------------------------------
 
 
-def file_To_Text(path, method):
-    if method:
-        text = textract.process(path, method=method)
-    else:
-        text = textract.process(path)
-    return text.decode("utf-8")
-
-
 # ----------------------------------------------------------------------------------------------------
 # Function to extract email ids from both PDF and DOCX files
 
