@@ -157,7 +157,8 @@ def extractDataPoints(path):
 
     return data_dict
 
-    # --------------------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------------------
 if __name__ == '__main__':
 
     # path = r'resumes\Other\non_indian_cvs\EY_Kitman Tsang_Cosec Mgr.docx'
