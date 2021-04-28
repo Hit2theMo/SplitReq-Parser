@@ -10,7 +10,7 @@ from pprint import pprint
 import pdfplumber
 import textract
 import docx
-
+import pathlib
 
 path = r'resumes\Other\non_indian_cvs\EY_Kitman Tsang_Cosec Mgr.docx'
 path = r'resumes\best\Arindam_Presales.docx'
@@ -73,13 +73,21 @@ def getText(filename):
     for para in doc.paragraphs:
         fullText.append(para.text)
     return '\n'.join(fullText)
+
+
+def base64ToDocument(path, file_name, extn):
+    file_path = pathlib.PurePath(path, file_name + '.' + extn)
+    print(file_path)
+
+
+base64ToDocument('folder1', 'file', 'pdf')
 # ------------------------------------------------------------------------
 # text = extract_text_from_pdf(path)
 # print(text)
 
 
-print(word_to_Text(path))
-print('------------------------------------------------------------------------')
-print(getText(path))
-# textfromplumber = plumb_PDF_text(path)[0]
+# print(word_to_Text(path))
+# print('------------------------------------------------------------------------')
+# print(getText(path))
+# # textfromplumber = plumb_PDF_text(path)[0]
 # print(textfromplumber)

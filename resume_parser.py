@@ -5,6 +5,7 @@ import spacy
 from spacy.matcher import Matcher
 from pprint import pprint
 import regex as re
+from pathlib import Path
 # Load English tokenizer, tagger, parser and NER
 # nlp = spacy.load("en_core_web_sm")
 nlp = spacy.load("en_core_web_md")
@@ -12,12 +13,13 @@ nlp = spacy.load("en_core_web_md")
 matcher = Matcher(nlp.vocab)
 
 
-def extractText(path):
+def extractText(path, file_extension):
     hyperlinks = []
-    file_name, file_extension = os.path.splitext(path)
-    if file_extension in (".docx", ".doc"):
+    # file_name, file_extension = os.path.splitext(path)
+    path = Path(path)
+    if file_extension.lower() in ("docx", "doc"):
         txt = wordToText(path)
-    elif file_extension == '.pdf':
+    elif file_extension.lower() == 'pdf':
         result = PdfToText(path)
         txt = result[0]
         hyperlinks = result[1]
@@ -138,9 +140,9 @@ def extractLocation(spacy_doc):
 # ----------------------------------------------------------------------------------------------------
 
 
-def extractDataPoints(path):
+def extractDataPoints(path, file_extension):
     data_dict = {}
-    text, hyperlinks = extractText(path)
+    text, hyperlinks = extractText(path, file_extension)
     clean_text = cleanText(text)
     spacy_doc = spacyProcessText(text)
     name = extractName(spacy_doc)

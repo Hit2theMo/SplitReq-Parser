@@ -1,7 +1,10 @@
+import uuid
 from flask import Flask, jsonify, request
 import json
 import base64
 from resume_parser import extractDataPoints
+import shortuuid
+import pathlib
 
 API_KEY = '123abc456'
 UPLOAD_FOLDER = 'uploaded_files'
@@ -32,8 +35,15 @@ def authenticate(username, key):
         return 'fail'
 
 
-def base64ToDocument(data, path, extn):
-    file_path = path+r"\file."+extn
+def generate_filename():
+    uuid = shortuuid.ShortUUID()
+    file_name = uuid.uuid()
+    return file_name
+
+
+def base64ToDocument(data, path, file_name, extn):
+    file_path = pathlib.PurePath(path, file_name + '.' + extn.lower())
+    # file_path = path +"\"+ file_name + extn
     try:
         with open(file_path, "wb") as fh:
             fh.write(base64.b64decode(data))
@@ -71,12 +81,14 @@ def parseResume():
         return jsonify(invalid_b64_doc)
 
     # Convert Resume from Base64 String to Document
-    file_path = base64ToDocument(b64str, UPLOAD_FOLDER, file_extn)
+    unique_file_name = generate_filename()
+    file_path = base64ToDocument(b64str, UPLOAD_FOLDER, unique_file_name, file_extn)
     if file_path == 'fail':
         return jsonify(invalid_b64_doc)
 
     # Call the Parsing script and send the file path as param
-    final_output = extractDataPoints(file_path)
+    print(file_path)
+    final_output = extractDataPoints(file_path, file_extn)
     return jsonify(final_output)
 
 
