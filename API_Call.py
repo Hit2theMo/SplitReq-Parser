@@ -9,9 +9,9 @@ path = r'resumes\sample_CVs\Resume_1.docx'
 path = r'resumes\Other\non_indian_cvs\DwightIT-QA-Analyst_layout.pdf'
 # path = r'resumes\sample_CVs\Resume_2.pdf'
 # path = r'resumes\sample_CVs\Resume_2.docx'
-# path = r'resumes\sample_CVs\my_resume.pdf'
+path = r'resumes\sample_CVs\my_resume.pdf'
 # path = r'resumes\Resumes_latest\2MichaelFarros.doc'
-path = r'resumes\Resumes_latest\Lawrence Acosta.docx'
+# path = r'resumes\Resumes_latest\Lawrence Acosta.docx'
 # path = r'resumes\Resumes_latest\Kevin_Resumev2.docx'
 # path = r'resumes\Resumes_latest\Derrick-Joyner (1).pdf'
 # path = r'resumes\Resumes_latest\Garstang-Resume-LinuxAdmin.pdf'     # Wrong name because space between name chars
@@ -21,9 +21,14 @@ path = r'resumes\Resumes_latest\Lawrence Acosta.docx'
 # path = r'resumes\Resumes_latest\'
 # Mult mobile nums - Wrong Name identification
 # path = r'resumes\Resumes_latest\Gary_Greenberg_resume_09_10.pdf'
+# path = r'uploaded_files\zipped_resume.zip'
+path = r'resumes\sample_CVs\my_resume.pdf'
 
-file_name, file_extension = os.path.splitext(path)
-# print(file_extension)
+# file_name, file_extension = os.path.splitext(path)
+file_name, file_extension = os.path.basename(path).split('.')
+
+print(file_name)
+print(file_extension)
 try:
     with open(path, 'rb') as f:
         base64str = base64.b64encode(f.read()).decode('UTF-8')
@@ -36,7 +41,8 @@ except Exception:
 
 payload = {
     "ResumeAsBase64String": base64str,
-    "file_extension": file_extension[1:]
+    "file_name": file_name,
+    "file_extension": file_extension
 }
 headers = {
     "username": "mark abbot",

@@ -11,6 +11,7 @@ import pdfplumber
 import textract
 import docx
 import pathlib
+import zipfile
 
 path = r'resumes\Other\non_indian_cvs\EY_Kitman Tsang_Cosec Mgr.docx'
 path = r'resumes\best\Arindam_Presales.docx'
@@ -80,7 +81,15 @@ def base64ToDocument(path, file_name, extn):
     print(file_path)
 
 
-base64ToDocument('folder1', 'file', 'pdf')
+def unzipFile(path):
+    with zipfile.ZipFile(path, 'r') as zip_ref:
+        zip_ref.extractall('batch_parsing')
+    print('done')
+
+
+# base64ToDocument('folder1', 'file', 'pdf')
+unzipFile(r'uploaded_files\zipped_resume.zip')
+
 # ------------------------------------------------------------------------
 # text = extract_text_from_pdf(path)
 # print(text)
