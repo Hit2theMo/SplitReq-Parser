@@ -124,7 +124,7 @@ def extractEmail(text, hyperlinks):
         "([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)", text)
     if emails == []:
         emails.append(None)
-    emails = list(set(emails))
+    emails = list(set([e.lower() for e in emails]))
     return emails
 
 # ----------------------------------------------------------------------------------------------------
