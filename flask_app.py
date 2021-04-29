@@ -37,15 +37,6 @@ invalid_b64_doc = {
 }
 
 
-# def authenticate(username, key):
-#     if key == API_KEY:
-#         print("Authenticated user '{0}' with key '{1}'".format(username, key))
-#         return 'success'
-#     else:
-#         print("Authentication failed for user '{0}' with key '{1}'".format(username, key))
-#         return 'fail'
-
-
 def generate_filename(batch, org_name=None):
     uuid = shortuuid.ShortUUID()
     if batch:
