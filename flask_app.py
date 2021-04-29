@@ -2,6 +2,7 @@ from datetime import datetime, date
 from resume_parser import extractDataPoints
 from flask import Flask, jsonify, request
 import json
+import os
 import base64
 import shortuuid
 import pathlib
@@ -123,6 +124,9 @@ def parseResume():
     # Call the Parsing script and send the file path as param
     print(file_path)
     final_output = extractDataPoints(file_path, file_extn)
+    # Delete the parsed resume
+    if os.path.isfile(file_path):
+        os.remove(file_path)
     return jsonify(final_output)
 
 # ----------------------------------------------------------------------------------------------------------------------
