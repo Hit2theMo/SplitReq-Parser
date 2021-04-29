@@ -6,6 +6,7 @@ import base64
 import shortuuid
 import pathlib
 import zipfile
+from batch_parsing import parseUnzippedResumes
 
 API_KEY = '123abc456'
 UPLOAD_PATH = 'uploaded_files'
@@ -143,7 +144,9 @@ def batchResumeParsing():
     unique_file_name = generate_filename(batch=True)
     zip_file_path = base64ToDocument(b64str, UPLOAD_PATH, unique_file_name, 'zip')
     unzip_path = unzipFile(BATCH_UNZIP_PATH, zip_file_path, unique_file_name)
-    return jsonify({'msg': 'success', "path": str(unzip_path)})
+    batch_output = parseUnzippedResumes(unzip_path)
+    # return batch_output
+    return jsonify(batch_output)
 
 
 if __name__ == '__main__':

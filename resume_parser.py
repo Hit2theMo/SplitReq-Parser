@@ -177,9 +177,10 @@ if __name__ == '__main__':
     # path = r'resumes\Resumes_latest\Garstang-Resume-LinuxAdmin.pdf'     # Wrong name because space between name chars
     # path = r'resumes\Resumes_latest\Friedlander_Resume.pdf'
     # path = r'resumes\Resumes_latest\Eric_Kao_Resume.pdf'
-    # path = r'resumes\Resumes_latest\EllenJacobs.pdf'
+    path = r'resumes\Resumes_latest\EllenJacobs.pdf'
     # path = r'resumes\Resumes_latest\'
     # path = r'resumes\Resumes_latest\Gary_Greenberg_resume_09_10.pdf'  # Mult mobile nums - Wrong Name identification
 
-    data = extractDataPoints(path)
+    data = extractDataPoints(path, 'pdf')
+    print(repr(data['name']))
     pprint(data)

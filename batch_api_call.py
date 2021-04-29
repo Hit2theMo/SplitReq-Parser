@@ -6,6 +6,7 @@ import time
 
 path = r'uploaded_files\zipped_resume.zip'
 path = r'uploaded_files\Linda_Chang.zip'
+path = r'uploaded_files\zip_test_3.zip'
 # file_name, file_extension = os.path.splitext(path)
 file_name, file_extension = os.path.basename(path).split('.')
 
