@@ -1,3 +1,4 @@
+import batch_parsing
 from docx_doc_to_text import wordToText
 from pdf_to_text import PdfToText
 import os
@@ -6,10 +7,15 @@ from spacy.matcher import Matcher
 from pprint import pprint
 import regex as re
 from pathlib import Path
-# Load English tokenizer, tagger, parser and NER
-# nlp = spacy.load("en_core_web_sm")
-nlp = spacy.load("en_core_web_md")
+import logging
+import logging.config
 
+
+# logging.config.fileConfig('logging.conf')  # , disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
+# timedFileHandler.suffix = "%Y%m%d.log"
+# print(__name__)
+nlp = spacy.load("en_core_web_md")
 matcher = Matcher(nlp.vocab)
 
 
@@ -141,6 +147,7 @@ def extractLocation(spacy_doc):
 
 
 def extractDataPoints(path, file_extension):
+    logger.info("starting data extraction")
     data_dict = {}
     text, hyperlinks = extractText(path, file_extension)
     clean_text = cleanText(text)
@@ -175,12 +182,12 @@ if __name__ == '__main__':
     path = r'resumes\Resumes_latest\Kevin_Resumev2.docx'
     # path = r'resumes\Resumes_latest\Derrick-Joyner (1).pdf'
     # path = r'resumes\Resumes_latest\Garstang-Resume-LinuxAdmin.pdf'     # Wrong name because space between name chars
-    # path = r'resumes\Resumes_latest\Friedlander_Resume.pdf'
+    path = r'resumes\Resumes_latest\Friedlander_Resume.pdf'
     # path = r'resumes\Resumes_latest\Eric_Kao_Resume.pdf'
-    path = r'resumes\Resumes_latest\EllenJacobs.pdf'
+    # path = r'resumes\Resumes_latest\EllenJacobs.pdf'
     # path = r'resumes\Resumes_latest\'
     # path = r'resumes\Resumes_latest\Gary_Greenberg_resume_09_10.pdf'  # Mult mobile nums - Wrong Name identification
 
     data = extractDataPoints(path, 'pdf')
-    print(repr(data['name']))
+    # print(repr(data['name']))
     pprint(data)

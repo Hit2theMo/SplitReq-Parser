@@ -1,7 +1,13 @@
 import pdfplumber
+import logging
+
+logger = logging.getLogger('pdf_to_text')
+# logger
+print(__name__)
 
 
 def PdfToText(path):
+    logger.info('Converting PDF to text')
     text = ''
     hyperlinks = []
     pdf = pdfplumber.open(path)

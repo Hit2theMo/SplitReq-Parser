@@ -4,6 +4,17 @@ import base64
 import os
 import time
 
+# log_file_path = os.path.join('logs', 'sample.log')
+
+# logger = logging.getLogger(__name__)
+# file_handler = logging.FileHandler(log_file_path)
+# file_handler.setLevel(logging.ERROR)
+# formatter = logging.Formatter('%(asctime)s:%(name)s:%(message)s')
+# file_handler.setFormatter(formatter)
+
+# logger.addHandler(file_handler)
+# logger.setLevel(logging.INFO)
+
 path = r'uploaded_files\zipped_resume.zip'
 path = r'uploaded_files\Linda_Chang.zip'
 path = r'uploaded_files\zip_test_3.zip'
