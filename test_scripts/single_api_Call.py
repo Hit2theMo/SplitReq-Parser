@@ -13,7 +13,7 @@ path = r'resumes\Other\non_indian_cvs\DwightIT-QA-Analyst_layout.pdf'
 path = r'resumes\sample_CVs\my_resume.pdf'
 # path = r'resumes\Resumes_latest\2MichaelFarros.doc'
 # path = r'resumes\Resumes_latest\Lawrence Acosta.docx'
-# path = r'resumes\Resumes_latest\Kevin_Resumev2.docx'
+path = r'resumes\Resumes_latest\Kevin_Resumev2.docx'
 # path = r'resumes\Resumes_latest\Derrick-Joyner (1).pdf'
 # path = r'resumes\Resumes_latest\Garstang-Resume-LinuxAdmin.pdf'     # Wrong name because space between name chars
 # path = r'resumes\Resumes_latest\Friedlander_Resume.pdf'
@@ -21,7 +21,7 @@ path = r'resumes\sample_CVs\my_resume.pdf'
 # path = r'resumes\Resumes_latest\EllenJacobs.pdf'
 # path = r'resumes\Resumes_latest\'
 # Mult mobile nums - Wrong Name identification
-path = r'resumes\Resumes_latest\Gary_Greenberg_resume_09_10.pdf'
+# path = r'resumes\Resumes_latest\Gary_Greenberg_resume_09_10.pdf'
 # path = r'uploaded_files\zipped_resume.zip'
 # path = r'resumes\sample_CVs\my_resume.pdf'
 

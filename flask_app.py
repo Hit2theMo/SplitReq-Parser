@@ -1,4 +1,4 @@
-from datetime import datetime, date
+# from datetime import datetime, date
 from resume_parser import extractDataPoints
 from flask import Flask, jsonify, request
 import json
@@ -250,7 +250,7 @@ def batchResumeParsing():
             os.remove(zip_file_path)
         # remove unzipped files and folders
         # print(unzip_path)
-        # shutil.rmtree(unzip_path)
+        shutil.rmtree(unzip_path)
     except Exception:
         logger.exception(
             "Error deleting parsed resume file- {0}.{1}".format(zip_file_path, 'zip'))

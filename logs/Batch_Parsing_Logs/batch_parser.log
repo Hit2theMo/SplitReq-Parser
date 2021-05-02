@@ -177,3 +177,8 @@ UnboundLocalError: local variable 'base64str' referenced before assignment
 2021-05-02 05:59:51,870 - batch_parsing - INFO - Starting the Batch Parsing of batch_parsing\AW33LYSkPkqps8K5buttke
 2021-05-02 06:14:34,541 - batch_parsing - INFO - Authenticated user 'markabbot' with key '123abc456'
 2021-05-02 06:14:34,569 - batch_parsing - INFO - Starting the Batch Parsing of batch_parsing\QbQrHtMRJYhWxFHrk4u9Pu
+2021-05-02 22:58:42,574 - batch_parsing - INFO - Authenticated user 'markabbot' with key '123abc456'
+2021-05-02 22:58:42,607 - batch_parsing - INFO - Starting the Batch Parsing of batch_parsing\6V9aHhcdvV8KvEzfM7eiXS
+2021-05-02 22:59:03,320 - batch_parsing - INFO - Authenticated user 'markabbot' with key '123abc456'
+2021-05-02 22:59:04,053 - batch_parsing - INFO - Finished parsing resume- uploaded_files\Gary_Greenberg_resume_09_10_npUL9uDLwe74RKT6ZJNZbL.pdf, Extracted data points- 
+ {'name': 'Palo Alto', 'mobile_numbers': ['6504935643', '6502697902'], 'emails': ['gary.greenberg@sbcglobal.net'], 'linkedin': [], 'location': 'Palo Alto'}

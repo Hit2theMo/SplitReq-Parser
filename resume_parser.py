@@ -1,6 +1,6 @@
 from docx_doc_to_text import wordToText
 from pdf_to_text import PdfToText
-import os
+# import os
 import spacy
 from spacy.matcher import Matcher
 from pprint import pprint
