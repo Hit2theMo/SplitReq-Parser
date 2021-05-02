@@ -1,4 +1,3 @@
-import batch_parsing
 from docx_doc_to_text import wordToText
 from pdf_to_text import PdfToText
 import os
@@ -13,8 +12,7 @@ import logging.config
 
 # logging.config.fileConfig('logging.conf')  # , disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
-# timedFileHandler.suffix = "%Y%m%d.log"
-# print(__name__)
+
 nlp = spacy.load("en_core_web_md")
 matcher = Matcher(nlp.vocab)
 
@@ -24,13 +22,23 @@ def extractText(path, file_extension):
     # file_name, file_extension = os.path.splitext(path)
     path = Path(path)
     if file_extension.lower() in ("docx", "doc"):
-        txt = wordToText(path)
+        try:
+            txt = wordToText(path)
+        except Exception:
+            logger.critical(
+                "Error converting given Doc or Docx file into Text- {0}.{1}".format(path, file_extension))
+            return '', []
     elif file_extension.lower() == 'pdf':
-        result = PdfToText(path)
-        txt = result[0]
-        hyperlinks = result[1]
+        try:
+            result = PdfToText(path)
+            txt = result[0]
+            hyperlinks = result[1]
+        except Exception:
+            logger.critical(
+                "Error converting given PDF file into Text- {0}.{1}".format(path, file_extension))
+            return '', []
     else:
-        return "Invalid File Format"
+        return '', []
 
     return txt, hyperlinks
 
@@ -47,11 +55,11 @@ def cleanText(text):
 def spacyProcessText(text):
     text_cleaned = cleanText(text)
     doc = nlp(text_cleaned)
-    tokens = [(token.text, token.pos_) for token in doc]
-    sentences = [sent for sent in doc.sents]
-    emails = [token.text for token in doc if token.like_email]
-    urls = [token.text for token in doc if token.like_url]
-    ents = [(e.text, e.label_) for e in doc.ents]
+    # tokens = [(token.text, token.pos_) for token in doc]
+    # sentences = [sent for sent in doc.sents]
+    # emails = [token.text for token in doc if token.like_email]
+    # urls = [token.text for token in doc if token.like_url]
+    # ents = [(e.text, e.label_) for e in doc.ents]
     # for ent in doc.ents:
     #     if ent.label_ in ['GPE', 'LOC']:
     #         print(ent.text, ent.start_char, ent.end_char, ent.label_)
@@ -84,11 +92,13 @@ def extractName(spacy_doc):
 
 
 def extractLinkedIn(text, spacy_doc, hyperlinks):
+    if not text and not hyperlinks:
+        return []
     linkedin = []
     if hyperlinks:
         for link in hyperlinks:
             if 'linkedin' in link:
-                return link
+                return [link]
     url = re.search(
         r"http(s)?:\/\/([\w]+\.)?linkedin\.com\/in\/[A-z0-9_-]+\/?", text)
     if url == None:
@@ -105,6 +115,8 @@ def extractLinkedIn(text, spacy_doc, hyperlinks):
 
 
 def extractMobileNumbers(text):
+    if not text:
+        return []
     mobile_numbers = []
     phone = re.findall(re.compile(
         r'(?:(?:\+?([1-9]|[0-9][0-9]|[0-9][0-9][0-9])\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([0-9][1-9]|[0-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?'), text)
@@ -121,6 +133,8 @@ def extractMobileNumbers(text):
 
 
 def extractEmail(text, hyperlinks):
+    if not text:
+        return []
     emails = []
     # if hyperlinks:
     #     for link in hyperlinks:
@@ -147,16 +161,60 @@ def extractLocation(spacy_doc):
 
 
 def extractDataPoints(path, file_extension):
-    logger.info("starting data extraction")
+    path = str(path)
+    # print(path)
+    # logger.info("Starting Data extraction from the resume- {0}.{1}".format(path, file_extension))
     data_dict = {}
-    text, hyperlinks = extractText(path, file_extension)
-    clean_text = cleanText(text)
-    spacy_doc = spacyProcessText(text)
-    name = extractName(spacy_doc)
-    linkedin = extractLinkedIn(clean_text, spacy_doc, hyperlinks)
-    mobile_numbers = extractMobileNumbers(clean_text)
-    emails = extractEmail(text, hyperlinks)
-    location = extractLocation(spacy_doc)
+    try:
+        text, hyperlinks = extractText(path, file_extension)
+        if not text:
+            raise Exception
+    except Exception:
+        logger.exception(
+            "Error extracting text from the resume- {0}.{1}".format(path, file_extension))
+        return {}
+    try:
+        clean_text = cleanText(text)
+    except Exception:
+        logger.exception(
+            "Error performing text cleanup on the resume- {0}.{1}".format(path, file_extension))
+        clean_text = ''
+    try:
+        spacy_doc = spacyProcessText(text)
+    except Exception:
+        logger.exception(
+            "Error processing text using Spacy on the resume- {0}.{1}".format(path, file_extension))
+        spacy_doc = ''
+    try:
+        name = extractName(spacy_doc)
+    except Exception:
+        logger.exception(
+            "Error extracting data point- 'Name' from the resume- {0}.{1}".format(path, file_extension))
+        name = ''
+    try:
+        linkedin = extractLinkedIn(clean_text, spacy_doc, hyperlinks)
+    except Exception:
+        logger.exception(
+            "Error extracting data point- 'LinkedIn from the resume- {0}.{1}".format(path, file_extension))
+        linkedin = []
+    try:
+        mobile_numbers = extractMobileNumbers(clean_text)
+    except Exception:
+        logger.exception(
+            "Error extracting data point- 'Mobile Number' from the resume- {0}.{1}".format(path, file_extension))
+        mobile_numbers = []
+    try:
+        emails = extractEmail(text, hyperlinks)
+    except Exception:
+        logger.exception(
+            "Error extracting data point- 'Emails' from the resume- {0}.{1}".format(path, file_extension))
+        emails = []
+    try:
+        location = extractLocation(spacy_doc)
+    except Exception:
+        logger.exception(
+            "Error extracting data point- 'Location' from the resume- {0}.{1}".format(path, file_extension))
+        location = ''
 
     data_dict["name"] = name
     data_dict["mobile_numbers"] = mobile_numbers
@@ -187,7 +245,8 @@ if __name__ == '__main__':
     # path = r'resumes\Resumes_latest\EllenJacobs.pdf'
     # path = r'resumes\Resumes_latest\'
     # path = r'resumes\Resumes_latest\Gary_Greenberg_resume_09_10.pdf'  # Mult mobile nums - Wrong Name identification
-
+    path = str(path)
+    print(path)
     data = extractDataPoints(path, 'pdf')
     # print(repr(data['name']))
     pprint(data)

@@ -3,9 +3,16 @@ from resume_parser import extractDataPoints
 import os
 import shortuuid
 from pprint import pprint
-# from flask import jsonify
 import json
 import time
+import logging
+import base64
+from zipfile import ZipFile
+
+# logging.config.fileConfig('logging.conf')
+logger = logging.getLogger(__name__)
+
+# logger = logging.getLogger('batch_parsing')
 
 
 def generate_filename(org_name):
@@ -15,6 +22,7 @@ def generate_filename(org_name):
 
 
 def parseUnzippedResumes(path):
+    logger.info("Starting the Batch Parsing of {0}".format(path))
     file_names = os.listdir(path)
     # file_rename_dict = {}
     unparsed_resumes = []
@@ -31,24 +39,43 @@ def parseUnzippedResumes(path):
             # Rename file to the new name
             os.rename(org_file_path, new_file_path)
             output_dict = extractDataPoints(str(new_file_path), file_extn)
+            if not output_dict:
+                raise Exception
             temp_dict = {}
             temp_dict["original_resume_name"] = fn
             temp_dict["extracted_data"] = output_dict
             batch_output[new_file_name] = temp_dict
 
         except Exception as e:
-            print(e)
-            unparsed_resumes.append(fn)
+            logger.exception("Error in batch parser while parsing resume- {0}".format(fn))
+            unparsed_resumes.append(str(new_file_path))
             continue
+
+    zip_path = pathlib.PurePath(path, 'unparsed_resumes.zip')
+    # Zipping unparsed resumes
+    base64str = ''
+    if unparsed_resumes:
+        with ZipFile(zip_path, 'w') as zip:
+            for fn in unparsed_resumes:
+                zip.write(fn)
+        # Converting above Zip into Base64
+        try:
+            with open(zip_path, 'rb') as f:
+                base64str = base64.b64encode(f.read()).decode('UTF-8')
+        except Exception:
+            logger.critical("Error converting unparsed resume Zip file to Base64 string")
+            base64str = ''
+
     final_batch_output["output"] = batch_output
     final_batch_output["unparsed_resumes"] = unparsed_resumes
+    final_batch_output["unparsed_resume_zip_as_base64"] = base64str
     json_object = json.dumps(final_batch_output, indent=4)
 
     return json_object
 
 
 if __name__ == '__main__':
-    path = r'batch_parsing\\ipNLfea4wEqA34W8YnFzoe'
+    path = r'batch_parsing\ipNLfea4wEqA34W8YnFzoe'
     # path = r'batch_parsing\B5gK5FDw7U8jbgmmq7TR2J'
-    print(parseUnzippedResumes(path))
+    print(json.loads(parseUnzippedResumes(path)))
     print(time.perf_counter())

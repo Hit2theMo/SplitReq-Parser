@@ -1,9 +1,10 @@
+from pprint import pprint
 import requests
 import json
 import base64
 import os
 import time
-
+from pprint import pprint
 # log_file_path = os.path.join('logs', 'sample.log')
 
 # logger = logging.getLogger(__name__)
@@ -41,5 +42,6 @@ headers = {
 }
 res = requests.post('http://127.0.0.1:5000/api/v1/cvparser/batch',
                     json=json.dumps(payload), headers=headers)
-print(res.text)
+# print(res.text)
 print(time.perf_counter())
+pprint(json.loads(res.text))

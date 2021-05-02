@@ -3,6 +3,7 @@ import json
 import base64
 import os
 import time
+from pprint import pprint
 # path = r'resumes\Other\non_indian_cvs\EY_Kitman Tsang_Cosec Mgr.docx'
 # path = r'resumes\best\Arindam_Presales.docx'
 path = r'resumes\sample_CVs\Resume_1.docx'
@@ -20,9 +21,9 @@ path = r'resumes\sample_CVs\my_resume.pdf'
 # path = r'resumes\Resumes_latest\EllenJacobs.pdf'
 # path = r'resumes\Resumes_latest\'
 # Mult mobile nums - Wrong Name identification
-# path = r'resumes\Resumes_latest\Gary_Greenberg_resume_09_10.pdf'
+path = r'resumes\Resumes_latest\Gary_Greenberg_resume_09_10.pdf'
 # path = r'uploaded_files\zipped_resume.zip'
-path = r'resumes\sample_CVs\my_resume.pdf'
+# path = r'resumes\sample_CVs\my_resume.pdf'
 
 # file_name, file_extension = os.path.splitext(path)
 file_name, file_extension = os.path.basename(path).split('.')
@@ -45,12 +46,13 @@ payload = {
     "file_extension": file_extension
 }
 headers = {
-    "username": "mark abbot",
+    "username": "markabbot",
     "api-token": "123abc456"
 }
 res = requests.post('http://127.0.0.1:5000/api/v1/cvparser/single',
                     json=json.dumps(payload), headers=headers)
 print(res)
-print(res.text)
+# print(res.text)
 # print(res.json())
 print(time.perf_counter())
+pprint(json.loads(res.text))
