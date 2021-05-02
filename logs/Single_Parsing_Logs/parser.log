@@ -1,0 +1,291 @@
+2021-05-02 04:42:57,912 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_jRZkT5RYvyuumyTHsDtZ9D_5AGv6ma7XQzJRCDfH7SpAY_W2GnY8V4RQW5ZWpD76qApn_4E4qbAnjqD73jaA8hBqYNr_8mghWSrFPvUikycCaLuQqm.doc.doc
+2021-05-02 04:42:58,148 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\BenDean_3Xze8XHVDM5UbyZdjqAnZ2_bFztT5jXNHxhYHmo9AnThA_YdovtXbg4H8DuhHuHo23Wv_iAm47iMpW5BW5m5ZJkv6Dd_b845ShhRyVuj2bQoHaGQie.pdf.pdf
+2021-05-02 04:42:58,460 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Bhavik_Shah_WebDev_Java_more_R7ryaaiE6VEe9TLxCchLah_AJnWTcw5V7QA3Z7caVj9gr_YBCsvW3oQm8du4vkphQKog_bbCXVBD45MDmVnQ2m2KbCt_CreXEUtKWTJYh3nifnGXwf.pdf.pdf
+2021-05-02 04:42:58,849 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Bob Hitching_BzY68BLM7esAbULE3dXapR_9kimZQWe3tESVQHym2RnBs_RFXncVb9ixV9z4pvpMS223_9oc5i7PjeRktYLfqJRens9_ZTRfAoen8MjVsvvHCGjqzr.pdf.pdf
+2021-05-02 04:43:00,061 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Linda Chang_D4LC8q3j4q83WZEqkNsYvV_aVwwQ2sntENaa3bPXvCFNH_Yu9S2urzYJkHwnKvkMpYY5_CiBwh9DWRGruRT5M8PvAQE_gWEspXbgJEgEcDc9hhFmtU.docx.docx
+2021-05-02 04:50:10,175 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_jRZkT5RYvyuumyTHsDtZ9D_5AGv6ma7XQzJRCDfH7SpAY_W2GnY8V4RQW5ZWpD76qApn_4E4qbAnjqD73jaA8hBqYNr_8mghWSrFPvUikycCaLuQqm_8RNRYunZFeDyvb3a2noz5X.doc.doc
+2021-05-02 04:50:10,179 - resume_parser - ERROR - Error extracting text from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_jRZkT5RYvyuumyTHsDtZ9D_5AGv6ma7XQzJRCDfH7SpAY_W2GnY8V4RQW5ZWpD76qApn_4E4qbAnjqD73jaA8hBqYNr_8mghWSrFPvUikycCaLuQqm_8RNRYunZFeDyvb3a2noz5X.doc.doc
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\myvenv\lib\site-packages\textract\parsers\utils.py", line 82, in run
+    pipe = subprocess.Popen(
+  File "C:\anaconda3\lib\subprocess.py", line 854, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\anaconda3\lib\subprocess.py", line 1307, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 159, in extractDataPoints
+    text, hyperlinks = extractText(path, file_extension)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 25, in extractText
+    txt = wordToText(path)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\docx_doc_to_text.py", line 5, in wordToText
+    text = textract.process(path)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\myvenv\lib\site-packages\textract\parsers\__init__.py", line 77, in process
+    return parser.process(filename, encoding, **kwargs)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\myvenv\lib\site-packages\textract\parsers\utils.py", line 46, in process
+    byte_string = self.extract(filename, **kwargs)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\myvenv\lib\site-packages\textract\parsers\doc_parser.py", line 9, in extract
+    stdout, stderr = self.run(['antiword', filename])
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\myvenv\lib\site-packages\textract\parsers\utils.py", line 91, in run
+    ' '.join(args), 127, '', '',
+TypeError: sequence item 1: expected str instance, WindowsPath found
+2021-05-02 04:50:10,194 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\BenDean_3Xze8XHVDM5UbyZdjqAnZ2_bFztT5jXNHxhYHmo9AnThA_YdovtXbg4H8DuhHuHo23Wv_iAm47iMpW5BW5m5ZJkv6Dd_b845ShhRyVuj2bQoHaGQie_JuMdVAawpqMxHgbre9U3Wv.pdf.pdf
+2021-05-02 04:50:10,530 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Bhavik_Shah_WebDev_Java_more_R7ryaaiE6VEe9TLxCchLah_AJnWTcw5V7QA3Z7caVj9gr_YBCsvW3oQm8du4vkphQKog_bbCXVBD45MDmVnQ2m2KbCt_CreXEUtKWTJYh3nifnGXwf_H7iwekdLVMBP64CQEwwCAU.pdf.pdf
+2021-05-02 04:50:10,925 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Bob Hitching_BzY68BLM7esAbULE3dXapR_9kimZQWe3tESVQHym2RnBs_RFXncVb9ixV9z4pvpMS223_9oc5i7PjeRktYLfqJRens9_ZTRfAoen8MjVsvvHCGjqzr_knCqiU36MHCHrFoPFET2Fm.pdf.pdf
+2021-05-02 04:50:12,234 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Linda Chang_D4LC8q3j4q83WZEqkNsYvV_aVwwQ2sntENaa3bPXvCFNH_Yu9S2urzYJkHwnKvkMpYY5_CiBwh9DWRGruRT5M8PvAQE_gWEspXbgJEgEcDc9hhFmtU_cRA3fom9YADTWb5EkHzeHP.docx.docx
+2021-05-02 04:53:13,772 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\DWIGHT kavanagh_8xm6q6YKwSD4GJvhwUBEew_HaqzQsokaQhdGWBKHtWS4Y.pdf.pdf
+2021-05-02 04:53:14,007 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\ellen_jacobs_iCvyURDupCwxbxcGbs95Mr_fEPtetrV8SVMju3Trv4HqF.pdf.pdf
+2021-05-02 04:53:15,219 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\Lawrence Acosta_TJf98DEE3vQpRChndyZrXz_2QTY8E6RinrxV2Yc37iXtS.docx.docx
+2021-05-02 04:54:45,532 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\DWIGHT kavanagh_8xm6q6YKwSD4GJvhwUBEew_HaqzQsokaQhdGWBKHtWS4Y_P6EYAScrjhra2vMumpUTPQ.pdf.pdf
+2021-05-02 04:54:45,738 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\ellen_jacobs_iCvyURDupCwxbxcGbs95Mr_fEPtetrV8SVMju3Trv4HqF_55dTRCu2qwwzHUp2TsWeGR.pdf.pdf
+2021-05-02 04:54:46,948 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\Lawrence Acosta_TJf98DEE3vQpRChndyZrXz_2QTY8E6RinrxV2Yc37iXtS_AePFGLH8uLLnw8dpUqC832.docx.docx
+2021-05-02 04:54:47,082 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\unparsed_resumes_YZRqAD6VWcV7WbdbrNB5gc.zip.zip
+2021-05-02 04:54:47,082 - resume_parser - ERROR - Error extracting text from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\unparsed_resumes_YZRqAD6VWcV7WbdbrNB5gc.zip.zip
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 159, in extractDataPoints
+    text, hyperlinks = extractText(path, file_extension)
+ValueError: too many values to unpack (expected 2)
+2021-05-02 04:55:53,678 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\DWIGHT kavanagh_8xm6q6YKwSD4GJvhwUBEew_HaqzQsokaQhdGWBKHtWS4Y_P6EYAScrjhra2vMumpUTPQ_CCYadEqW2Gv7DznJeBoWkF.pdf.pdf
+2021-05-02 04:55:53,870 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\ellen_jacobs_iCvyURDupCwxbxcGbs95Mr_fEPtetrV8SVMju3Trv4HqF_55dTRCu2qwwzHUp2TsWeGR_QDHymK9PJCuuiVBA9EGhse.pdf.pdf
+2021-05-02 04:55:55,181 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\Lawrence Acosta_TJf98DEE3vQpRChndyZrXz_2QTY8E6RinrxV2Yc37iXtS_AePFGLH8uLLnw8dpUqC832_eN3KsDZvHNni5LmMBVSsFm.docx.docx
+2021-05-02 04:58:14,889 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\DWIGHT kavanagh_8xm6q6YKwSD4GJvhwUBEew_HaqzQsokaQhdGWBKHtWS4Y_P6EYAScrjhra2vMumpUTPQ_CCYadEqW2Gv7DznJeBoWkF_fE3AfHU5g3L6YAzEUDwkSP.pdf.pdf
+2021-05-02 04:58:15,083 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\ellen_jacobs_iCvyURDupCwxbxcGbs95Mr_fEPtetrV8SVMju3Trv4HqF_55dTRCu2qwwzHUp2TsWeGR_QDHymK9PJCuuiVBA9EGhse_nGf8AdkispsDiHd9STtoEm.pdf.pdf
+2021-05-02 04:58:16,350 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\Lawrence Acosta_TJf98DEE3vQpRChndyZrXz_2QTY8E6RinrxV2Yc37iXtS_AePFGLH8uLLnw8dpUqC832_eN3KsDZvHNni5LmMBVSsFm_dLKjW7SGVLBbSn9xE34con.docx.docx
+2021-05-02 05:00:02,452 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\DWIGHT kavanagh_8xm6q6YKwSD4GJvhwUBEew_HaqzQsokaQhdGWBKHtWS4Y_P6EYAScrjhra2vMumpUTPQ_CCYadEqW2Gv7DznJeBoWkF_fE3AfHU5g3L6YAzEUDwkSP_myTzixpyk4cpU7xqrFjPrq.pdf.pdf
+2021-05-02 05:00:02,651 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\ellen_jacobs_iCvyURDupCwxbxcGbs95Mr_fEPtetrV8SVMju3Trv4HqF_55dTRCu2qwwzHUp2TsWeGR_QDHymK9PJCuuiVBA9EGhse_nGf8AdkispsDiHd9STtoEm_GSk34wptZC6Ci32vLgaj25.pdf.pdf
+2021-05-02 05:00:03,832 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\Lawrence Acosta_TJf98DEE3vQpRChndyZrXz_2QTY8E6RinrxV2Yc37iXtS_AePFGLH8uLLnw8dpUqC832_eN3KsDZvHNni5LmMBVSsFm_dLKjW7SGVLBbSn9xE34con_4UFJMQAaXiiLnjCwnGKr7x.docx.docx
+2021-05-02 05:01:21,311 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\DWIGHT kavanagh_8xm6q6YKwSD4GJvhwUBEew_HaqzQsokaQhdGWBKHtWS4Y_P6EYAScrjhra2vMumpUTPQ_CCYadEqW2Gv7DznJeBoWkF_fE3AfHU5g3L6YAzEUDwkSP_myTzixpyk4cpU7xqrFjPrq_Y93tNDef8SeHK3PtfVFb8H.pdf.pdf
+2021-05-02 05:01:21,507 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\ellen_jacobs_iCvyURDupCwxbxcGbs95Mr_fEPtetrV8SVMju3Trv4HqF_55dTRCu2qwwzHUp2TsWeGR_QDHymK9PJCuuiVBA9EGhse_nGf8AdkispsDiHd9STtoEm_GSk34wptZC6Ci32vLgaj25_MaXDAeEv4v5yQhNnjXZfjn.pdf.pdf
+2021-05-02 05:01:22,737 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\B5gK5FDw7U8jbgmmq7TR2J\Lawrence Acosta_TJf98DEE3vQpRChndyZrXz_2QTY8E6RinrxV2Yc37iXtS_AePFGLH8uLLnw8dpUqC832_eN3KsDZvHNni5LmMBVSsFm_dLKjW7SGVLBbSn9xE34con_4UFJMQAaXiiLnjCwnGKr7x_F9YnGBPqucsUoD6ucGBJ8i.docx.docx
+2021-05-02 05:04:52,840 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_jRZkT5RYvyuumyTHsDtZ9D_5AGv6ma7XQzJRCDfH7SpAY_W2GnY8V4RQW5ZWpD76qApn_4E4qbAnjqD73jaA8hBqYNr_8mghWSrFPvUikycCaLuQqm_8RNRYunZFeDyvb3a2noz5X_mAyKcj5ecAcxP2WTBTPd3b.doc.doc
+2021-05-02 05:04:52,844 - resume_parser - ERROR - Error extracting text from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_jRZkT5RYvyuumyTHsDtZ9D_5AGv6ma7XQzJRCDfH7SpAY_W2GnY8V4RQW5ZWpD76qApn_4E4qbAnjqD73jaA8hBqYNr_8mghWSrFPvUikycCaLuQqm_8RNRYunZFeDyvb3a2noz5X_mAyKcj5ecAcxP2WTBTPd3b.doc.doc
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\myvenv\lib\site-packages\textract\parsers\utils.py", line 82, in run
+    pipe = subprocess.Popen(
+  File "C:\anaconda3\lib\subprocess.py", line 854, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\anaconda3\lib\subprocess.py", line 1307, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 159, in extractDataPoints
+    text, hyperlinks = extractText(path, file_extension)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 25, in extractText
+    txt = wordToText(path)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\docx_doc_to_text.py", line 5, in wordToText
+    text = textract.process(path)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\myvenv\lib\site-packages\textract\parsers\__init__.py", line 77, in process
+    return parser.process(filename, encoding, **kwargs)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\myvenv\lib\site-packages\textract\parsers\utils.py", line 46, in process
+    byte_string = self.extract(filename, **kwargs)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\myvenv\lib\site-packages\textract\parsers\doc_parser.py", line 9, in extract
+    stdout, stderr = self.run(['antiword', filename])
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\myvenv\lib\site-packages\textract\parsers\utils.py", line 91, in run
+    ' '.join(args), 127, '', '',
+TypeError: sequence item 1: expected str instance, WindowsPath found
+2021-05-02 05:04:52,859 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\BenDean_3Xze8XHVDM5UbyZdjqAnZ2_bFztT5jXNHxhYHmo9AnThA_YdovtXbg4H8DuhHuHo23Wv_iAm47iMpW5BW5m5ZJkv6Dd_b845ShhRyVuj2bQoHaGQie_JuMdVAawpqMxHgbre9U3Wv_Mp22pRuoEDTiqkZfMSx9Ti.pdf.pdf
+2021-05-02 05:04:53,182 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Bhavik_Shah_WebDev_Java_more_R7ryaaiE6VEe9TLxCchLah_AJnWTcw5V7QA3Z7caVj9gr_YBCsvW3oQm8du4vkphQKog_bbCXVBD45MDmVnQ2m2KbCt_CreXEUtKWTJYh3nifnGXwf_H7iwekdLVMBP64CQEwwCAU_c8qHQscdiz7zyG2iMhujFz.pdf.pdf
+2021-05-02 05:04:53,644 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Bob Hitching_BzY68BLM7esAbULE3dXapR_9kimZQWe3tESVQHym2RnBs_RFXncVb9ixV9z4pvpMS223_9oc5i7PjeRktYLfqJRens9_ZTRfAoen8MjVsvvHCGjqzr_knCqiU36MHCHrFoPFET2Fm_Wyda5VEGPxs6vDtrBMj2kE.pdf.pdf
+2021-05-02 05:04:54,917 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Linda Chang_D4LC8q3j4q83WZEqkNsYvV_aVwwQ2sntENaa3bPXvCFNH_Yu9S2urzYJkHwnKvkMpYY5_CiBwh9DWRGruRT5M8PvAQE_gWEspXbgJEgEcDc9hhFmtU_cRA3fom9YADTWb5EkHzeHP_g9HksEqHFJ5fFPtF6PHCJ2.docx.docx
+2021-05-02 05:04:55,245 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_GFrPzz8Cnk2vSbTiymtK3w.zip.zip
+2021-05-02 05:04:55,245 - resume_parser - ERROR - Error extracting text from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_GFrPzz8Cnk2vSbTiymtK3w.zip.zip
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 159, in extractDataPoints
+    text, hyperlinks = extractText(path, file_extension)
+ValueError: too many values to unpack (expected 2)
+2021-05-02 05:06:34,886 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_jRZkT5RYvyuumyTHsDtZ9D_5AGv6ma7XQzJRCDfH7SpAY_W2GnY8V4RQW5ZWpD76qApn_4E4qbAnjqD73jaA8hBqYNr_8mghWSrFPvUikycCaLuQqm_8RNRYunZFeDyvb3a2noz5X_mAyKcj5ecAcxP2WTBTPd3b_DD2y9NkETpMAioqRc4UNzC.doc.doc
+2021-05-02 05:06:34,903 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\BenDean_3Xze8XHVDM5UbyZdjqAnZ2_bFztT5jXNHxhYHmo9AnThA_YdovtXbg4H8DuhHuHo23Wv_iAm47iMpW5BW5m5ZJkv6Dd_b845ShhRyVuj2bQoHaGQie_JuMdVAawpqMxHgbre9U3Wv_Mp22pRuoEDTiqkZfMSx9Ti_gGdPWgV95SoZs7bSQc4fcE.pdf.pdf
+2021-05-02 05:06:35,224 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Bhavik_Shah_WebDev_Java_more_R7ryaaiE6VEe9TLxCchLah_AJnWTcw5V7QA3Z7caVj9gr_YBCsvW3oQm8du4vkphQKog_bbCXVBD45MDmVnQ2m2KbCt_CreXEUtKWTJYh3nifnGXwf_H7iwekdLVMBP64CQEwwCAU_c8qHQscdiz7zyG2iMhujFz_cTXCWfvKYQBGW2DWXGuFRD.pdf.pdf
+2021-05-02 05:06:35,604 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Bob Hitching_BzY68BLM7esAbULE3dXapR_9kimZQWe3tESVQHym2RnBs_RFXncVb9ixV9z4pvpMS223_9oc5i7PjeRktYLfqJRens9_ZTRfAoen8MjVsvvHCGjqzr_knCqiU36MHCHrFoPFET2Fm_Wyda5VEGPxs6vDtrBMj2kE_kSGcBNaEbuKpNRZTe9wrfW.pdf.pdf
+2021-05-02 05:06:36,758 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Linda Chang_D4LC8q3j4q83WZEqkNsYvV_aVwwQ2sntENaa3bPXvCFNH_Yu9S2urzYJkHwnKvkMpYY5_CiBwh9DWRGruRT5M8PvAQE_gWEspXbgJEgEcDc9hhFmtU_cRA3fom9YADTWb5EkHzeHP_g9HksEqHFJ5fFPtF6PHCJ2_BZ484VJwGCpKvQZ7RMUCvw.docx.docx
+2021-05-02 05:06:37,082 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_GFrPzz8Cnk2vSbTiymtK3w_dVV5EQwDjfmQZh8VXRDDeU.zip.zip
+2021-05-02 05:06:37,082 - resume_parser - ERROR - Error extracting text from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_GFrPzz8Cnk2vSbTiymtK3w_dVV5EQwDjfmQZh8VXRDDeU.zip.zip
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 159, in extractDataPoints
+    text, hyperlinks = extractText(path, file_extension)
+ValueError: too many values to unpack (expected 2)
+2021-05-02 05:13:34,977 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_jRZkT5RYvyuumyTHsDtZ9D_5AGv6ma7XQzJRCDfH7SpAY_W2GnY8V4RQW5ZWpD76qApn_4E4qbAnjqD73jaA8hBqYNr_8mghWSrFPvUikycCaLuQqm_8RNRYunZFeDyvb3a2noz5X_mAyKcj5ecAcxP2WTBTPd3b_DD2y9NkETpMAioqRc4UNzC_No8iQFRzJvJ7DfUz2BZbh2_RdrKvgV5ViDx64CuXg7s2s.doc.doc
+2021-05-02 05:13:34,982 - resume_parser - ERROR - Error extracting text from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_jRZkT5RYvyuumyTHsDtZ9D_5AGv6ma7XQzJRCDfH7SpAY_W2GnY8V4RQW5ZWpD76qApn_4E4qbAnjqD73jaA8hBqYNr_8mghWSrFPvUikycCaLuQqm_8RNRYunZFeDyvb3a2noz5X_mAyKcj5ecAcxP2WTBTPd3b_DD2y9NkETpMAioqRc4UNzC_No8iQFRzJvJ7DfUz2BZbh2_RdrKvgV5ViDx64CuXg7s2s.doc.doc
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\myvenv\lib\site-packages\textract\parsers\utils.py", line 82, in run
+    pipe = subprocess.Popen(
+  File "C:\anaconda3\lib\subprocess.py", line 854, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\anaconda3\lib\subprocess.py", line 1307, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 159, in extractDataPoints
+    text, hyperlinks = extractText(path, file_extension)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 25, in extractText
+    txt = wordToText(path)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\docx_doc_to_text.py", line 6, in wordToText
+    text = textract.process(path)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\myvenv\lib\site-packages\textract\parsers\__init__.py", line 77, in process
+    return parser.process(filename, encoding, **kwargs)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\myvenv\lib\site-packages\textract\parsers\utils.py", line 46, in process
+    byte_string = self.extract(filename, **kwargs)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\myvenv\lib\site-packages\textract\parsers\doc_parser.py", line 9, in extract
+    stdout, stderr = self.run(['antiword', filename])
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\myvenv\lib\site-packages\textract\parsers\utils.py", line 91, in run
+    ' '.join(args), 127, '', '',
+TypeError: sequence item 1: expected str instance, WindowsPath found
+2021-05-02 05:13:34,996 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\BenDean_3Xze8XHVDM5UbyZdjqAnZ2_bFztT5jXNHxhYHmo9AnThA_YdovtXbg4H8DuhHuHo23Wv_iAm47iMpW5BW5m5ZJkv6Dd_b845ShhRyVuj2bQoHaGQie_JuMdVAawpqMxHgbre9U3Wv_Mp22pRuoEDTiqkZfMSx9Ti_gGdPWgV95SoZs7bSQc4fcE_CUwGtaLHnYafcZV79whwCc_hmMMQFJg9xeX7CXVFsAVnQ.pdf.pdf
+2021-05-02 05:13:35,316 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Bob Hitching_BzY68BLM7esAbULE3dXapR_9kimZQWe3tESVQHym2RnBs_RFXncVb9ixV9z4pvpMS223_9oc5i7PjeRktYLfqJRens9_ZTRfAoen8MjVsvvHCGjqzr_knCqiU36MHCHrFoPFET2Fm_Wyda5VEGPxs6vDtrBMj2kE_kSGcBNaEbuKpNRZTe9wrfW_bGQR5gNHNNM7YYv5YkBBPr_mLTZceTf7TdbsxWCGtSGcJ.pdf.pdf
+2021-05-02 05:13:36,505 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Linda Chang_D4LC8q3j4q83WZEqkNsYvV_aVwwQ2sntENaa3bPXvCFNH_Yu9S2urzYJkHwnKvkMpYY5_CiBwh9DWRGruRT5M8PvAQE_gWEspXbgJEgEcDc9hhFmtU_cRA3fom9YADTWb5EkHzeHP_g9HksEqHFJ5fFPtF6PHCJ2_BZ484VJwGCpKvQZ7RMUCvw_hYku4ghABywfkQDp788dsf_o6KoiLhapnSeec59FXhwhk.docx.docx
+2021-05-02 05:13:36,824 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_W9s7WK9HUXHCbDPF5nibYn.zip.zip
+2021-05-02 05:13:36,824 - resume_parser - ERROR - Error extracting text from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_W9s7WK9HUXHCbDPF5nibYn.zip.zip
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 159, in extractDataPoints
+    text, hyperlinks = extractText(path, file_extension)
+ValueError: too many values to unpack (expected 2)
+2021-05-02 05:13:36,827 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_GFrPzz8Cnk2vSbTiymtK3w_dVV5EQwDjfmQZh8VXRDDeU_LNuyP9zm6hHcTRaQLmMG5q_JCESzDD4U2cf27vuD5K7Qq.zip.zip
+2021-05-02 05:13:36,827 - resume_parser - ERROR - Error extracting text from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_GFrPzz8Cnk2vSbTiymtK3w_dVV5EQwDjfmQZh8VXRDDeU_LNuyP9zm6hHcTRaQLmMG5q_JCESzDD4U2cf27vuD5K7Qq.zip.zip
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 159, in extractDataPoints
+    text, hyperlinks = extractText(path, file_extension)
+ValueError: too many values to unpack (expected 2)
+2021-05-02 05:17:09,274 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_bcQAFRmK2aSmtcXSYv3cLq.zip.zip
+2021-05-02 05:17:09,274 - resume_parser - ERROR - Error extracting text from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_bcQAFRmK2aSmtcXSYv3cLq.zip.zip
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 169, in extractDataPoints
+    text, hyperlinks = extractText(path, file_extension)
+ValueError: too many values to unpack (expected 2)
+2021-05-02 05:17:09,278 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_GFrPzz8Cnk2vSbTiymtK3w_dVV5EQwDjfmQZh8VXRDDeU_LNuyP9zm6hHcTRaQLmMG5q_JCESzDD4U2cf27vuD5K7Qq_Mkv5q36XC49tXtyuk8M86r.zip.zip
+2021-05-02 05:17:09,278 - resume_parser - ERROR - Error extracting text from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_GFrPzz8Cnk2vSbTiymtK3w_dVV5EQwDjfmQZh8VXRDDeU_LNuyP9zm6hHcTRaQLmMG5q_JCESzDD4U2cf27vuD5K7Qq_Mkv5q36XC49tXtyuk8M86r.zip.zip
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 169, in extractDataPoints
+    text, hyperlinks = extractText(path, file_extension)
+ValueError: too many values to unpack (expected 2)
+2021-05-02 05:17:09,290 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_W9s7WK9HUXHCbDPF5nibYn_AqfzSP9Hku5ponF8wmRTds.zip.zip
+2021-05-02 05:17:09,290 - resume_parser - ERROR - Error extracting text from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_W9s7WK9HUXHCbDPF5nibYn_AqfzSP9Hku5ponF8wmRTds.zip.zip
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 169, in extractDataPoints
+    text, hyperlinks = extractText(path, file_extension)
+ValueError: too many values to unpack (expected 2)
+2021-05-02 05:18:03,057 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_mnua6cMwPsKWSZ5rMvhZCm.doc.doc
+2021-05-02 05:18:03,061 - resume_parser - CRITICAL - Error converting given Doc or Docx file into Text- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_mnua6cMwPsKWSZ5rMvhZCm.doc.doc
+2021-05-02 05:18:03,061 - resume_parser - ERROR - Error extracting text from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_mnua6cMwPsKWSZ5rMvhZCm.doc.doc
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 171, in extractDataPoints
+    raise Exception
+Exception
+2021-05-02 05:18:03,071 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\BenDean_B2cbFVLWRBYM88hKQwkhWs.pdf.pdf
+2021-05-02 05:18:03,398 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Bhavik_Shah_WebDev_Java_more_UFcNCuxHmn7MypXUa7hEM8.pdf.pdf
+2021-05-02 05:18:03,774 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Bob Hitching_3QjCT7PJeggaaGAADGEZ6J.pdf.pdf
+2021-05-02 05:18:04,916 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Linda Chang_aVWQqFZoY8nMUuwXhNMqMZ.docx.docx
+2021-05-02 05:21:16,926 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_mnua6cMwPsKWSZ5rMvhZCm_W9Tz4wtoAjE3KeGKX8WaLg.doc.doc
+2021-05-02 05:21:16,931 - resume_parser - CRITICAL - Error converting given Doc or Docx file into Text- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_mnua6cMwPsKWSZ5rMvhZCm_W9Tz4wtoAjE3KeGKX8WaLg.doc.doc
+2021-05-02 05:21:16,931 - resume_parser - ERROR - Error extracting text from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_mnua6cMwPsKWSZ5rMvhZCm_W9Tz4wtoAjE3KeGKX8WaLg.doc.doc
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 171, in extractDataPoints
+    raise Exception
+Exception
+2021-05-02 05:21:16,942 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\BenDean_B2cbFVLWRBYM88hKQwkhWs_AfXAXgNEG7B4BaHPsUcCBy.pdf.pdf
+2021-05-02 05:21:17,328 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Bhavik_Shah_WebDev_Java_more_UFcNCuxHmn7MypXUa7hEM8_ZwsLopHETyhjaD6vHtumbo.pdf.pdf
+2021-05-02 05:21:17,796 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Bob Hitching_3QjCT7PJeggaaGAADGEZ6J_N5HtW8qwLnf6MM6dMcthL2.pdf.pdf
+2021-05-02 05:21:19,198 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Linda Chang_aVWQqFZoY8nMUuwXhNMqMZ_7ULLfyek95wqGcDnnUe4re.docx.docx
+2021-05-02 05:34:41,340 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_mnua6cMwPsKWSZ5rMvhZCm_W9Tz4wtoAjE3KeGKX8WaLg_NzLbwqxXNSKA7UaSrZmmCa.doc.doc
+2021-05-02 05:34:41,344 - resume_parser - CRITICAL - Error converting given Doc or Docx file into Text- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_mnua6cMwPsKWSZ5rMvhZCm_W9Tz4wtoAjE3KeGKX8WaLg_NzLbwqxXNSKA7UaSrZmmCa.doc.doc
+2021-05-02 05:34:41,344 - resume_parser - ERROR - Error extracting text from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Adrian Moreno_mnua6cMwPsKWSZ5rMvhZCm_W9Tz4wtoAjE3KeGKX8WaLg_NzLbwqxXNSKA7UaSrZmmCa.doc.doc
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 171, in extractDataPoints
+    raise Exception
+Exception
+2021-05-02 05:34:41,354 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\BenDean_B2cbFVLWRBYM88hKQwkhWs_AfXAXgNEG7B4BaHPsUcCBy_ARrXZKGPFGk2YszhExkP3X.pdf.pdf
+2021-05-02 05:34:41,737 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Bhavik_Shah_WebDev_Java_more_UFcNCuxHmn7MypXUa7hEM8_ZwsLopHETyhjaD6vHtumbo_4cVkVSgvzuviXsoA7Yswrj.pdf.pdf
+2021-05-02 05:34:42,211 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Bob Hitching_3QjCT7PJeggaaGAADGEZ6J_N5HtW8qwLnf6MM6dMcthL2_eK77bN5nzFrFxXGPHDoLu4.pdf.pdf
+2021-05-02 05:34:43,617 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\Linda Chang_aVWQqFZoY8nMUuwXhNMqMZ_7ULLfyek95wqGcDnnUe4re_7FZqoBBZMF9g42w8aVK28b.docx.docx
+2021-05-02 05:34:43,937 - resume_parser - INFO - Starting Data extraction from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_ZKA56tfEvPuipJbdH5DPLS.zip.zip
+2021-05-02 05:34:43,937 - resume_parser - ERROR - Error extracting text from the resume- batch_parsing\ipNLfea4wEqA34W8YnFzoe\unparsed_resumes_ZKA56tfEvPuipJbdH5DPLS.zip.zip
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resume_parser.py", line 169, in extractDataPoints
+    text, hyperlinks = extractText(path, file_extension)
+ValueError: too many values to unpack (expected 2)
+2021-05-02 05:40:11,868 - werkzeug - INFO -  * Restarting with stat
+2021-05-02 05:40:13,672 - werkzeug - WARNING -  * Debugger is active!
+2021-05-02 05:40:13,679 - werkzeug - INFO -  * Debugger PIN: 847-729-081
+2021-05-02 05:40:13,685 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-02 05:46:20,501 - werkzeug - INFO - 127.0.0.1 - - [02/May/2021 05:46:20] "[37mPOST /api/v1/cvparser/batch HTTP/1.1[0m" 200 -
+2021-05-02 05:48:13,601 - werkzeug - INFO -  * Detected change in 'c:\\Users\\Mohit Khanwale\\Desktop\\SplitReq\\SplitReq-Parser\\batch_parsing.py', reloading
+2021-05-02 05:48:13,722 - werkzeug - INFO -  * Restarting with stat
+2021-05-02 05:48:15,509 - werkzeug - WARNING -  * Debugger is active!
+2021-05-02 05:48:15,513 - werkzeug - INFO -  * Debugger PIN: 847-729-081
+2021-05-02 05:48:15,519 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-02 05:50:02,244 - werkzeug - INFO -  * Detected change in 'c:\\Users\\Mohit Khanwale\\Desktop\\SplitReq\\SplitReq-Parser\\batch_parsing.py', reloading
+2021-05-02 05:50:02,343 - werkzeug - INFO -  * Restarting with stat
+2021-05-02 05:50:04,230 - werkzeug - WARNING -  * Debugger is active!
+2021-05-02 05:50:04,235 - werkzeug - INFO -  * Debugger PIN: 847-729-081
+2021-05-02 05:50:04,242 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-02 05:50:13,683 - werkzeug - INFO - 127.0.0.1 - - [02/May/2021 05:50:13] "[37mPOST /api/v1/cvparser/batch HTTP/1.1[0m" 200 -
+2021-05-02 05:55:51,499 - werkzeug - INFO -  * Detected change in 'c:\\Users\\Mohit Khanwale\\Desktop\\SplitReq\\SplitReq-Parser\\flask_app.py', reloading
+2021-05-02 05:55:51,640 - werkzeug - INFO -  * Restarting with stat
+2021-05-02 05:55:53,750 - werkzeug - WARNING -  * Debugger is active!
+2021-05-02 05:55:53,756 - werkzeug - INFO -  * Debugger PIN: 847-729-081
+2021-05-02 05:55:53,763 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-02 05:56:09,581 - __main__ - ERROR - Error deleting parsed resume file- uploaded_files\EszDbJzEYmRHLJsZ3mfbuj.zip.zip
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\flask_app.py", line 247, in batchResumeParsing
+    os.rmdir(unzip_path)
+OSError: [WinError 145] The directory is not empty: 'batch_parsing\\EszDbJzEYmRHLJsZ3mfbuj'
+2021-05-02 05:56:09,583 - werkzeug - INFO - 127.0.0.1 - - [02/May/2021 05:56:09] "[37mPOST /api/v1/cvparser/batch HTTP/1.1[0m" 200 -
+2021-05-02 05:59:31,985 - werkzeug - INFO -  * Detected change in 'c:\\Users\\Mohit Khanwale\\Desktop\\SplitReq\\SplitReq-Parser\\flask_app.py', reloading
+2021-05-02 05:59:32,110 - werkzeug - INFO -  * Restarting with stat
+2021-05-02 05:59:33,949 - werkzeug - WARNING -  * Debugger is active!
+2021-05-02 05:59:33,954 - werkzeug - INFO -  * Debugger PIN: 847-729-081
+2021-05-02 05:59:33,961 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-02 05:59:55,959 - werkzeug - INFO - 127.0.0.1 - - [02/May/2021 05:59:55] "[37mPOST /api/v1/cvparser/batch HTTP/1.1[0m" 200 -
+2021-05-02 06:02:41,093 - werkzeug - INFO -  * Detected change in 'c:\\Users\\Mohit Khanwale\\Desktop\\SplitReq\\SplitReq-Parser\\pdf_to_text.py', reloading
+2021-05-02 06:02:41,212 - werkzeug - INFO -  * Restarting with stat
+2021-05-02 06:19:35,966 - __main__ - CRITICAL - Error while authenticating a POST request at endpoint- '/api/v1/cvparser/single'
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\flask_app.py", line 132, in parseResume
+    status, username = authenticate(headers, batch=False)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\flask_app.py", line 113, in authenticate
+    logger.info("Authenticated user '{0}' with key '{1}'".format(username, api_token))
+UnboundLocalError: local variable 'logger' referenced before assignment
+2021-05-02 06:19:55,848 - __main__ - CRITICAL - Error while authenticating a POST request at endpoint- '/api/v1/cvparser/single'
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\flask_app.py", line 132, in parseResume
+    status, username = authenticate(headers, batch=False)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\flask_app.py", line 113, in authenticate
+    logger.info("Authenticated user '{0}' with key '{1}'".format(username, api_token))
+UnboundLocalError: local variable 'logger' referenced before assignment
+2021-05-02 06:22:39,996 - __main__ - CRITICAL - Error while authenticating a POST request at endpoint- '/api/v1/cvparser/single'
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\flask_app.py", line 134, in parseResume
+    status, username = authenticate(headers, batch=False)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\flask_app.py", line 106, in authenticate
+    logger = logger
+UnboundLocalError: local variable 'logger' referenced before assignment
+2021-05-02 06:27:51,678 - __main__ - CRITICAL - Error extracting data points from provided resume file- uploaded_files\my_resume_U73CGidtiiXA8R3ihuaaXt.pdf.pdf, request sent by user- markabbot
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\flask_app.py", line 176, in parseResume
+    "Finished parsing resume- {0}.{1}, Extracted data points- \n {3}".format(file_path, file_extn, final_output))
+IndexError: Replacement index 3 out of range for positional args tuple
+2021-05-02 06:30:58,827 - __main__ - CRITICAL - Error extracting data points from provided resume file- uploaded_files\my_resume_XQJbrhA7bm8foWx3Lka44r.pdf, request sent by user- markabbot
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\flask_app.py", line 176, in parseResume
+    "Finished parsing resume- {0}, Extracted data points- \n {3}".format(file_path, final_output))
+IndexError: Replacement index 3 out of range for positional args tuple
+2021-05-02 06:31:07,510 - __main__ - CRITICAL - Error extracting data points from provided resume file- uploaded_files\my_resume_jN5hfmEQUM4VmsFULegKFf.pdf, request sent by user- markabbot
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\flask_app.py", line 176, in parseResume
+    "Finished parsing resume- {0}, Extracted data points- \n {3}".format(file_path, final_output))
+IndexError: Replacement index 3 out of range for positional args tuple
+2021-05-02 06:36:13,697 - __main__ - INFO - Authenticated user 'markabbot' with key '123abc456'
+2021-05-02 06:36:14,146 - __main__ - INFO - Finished parsing resume- uploaded_files\my_resume_eKjohW3dy2paE9BvqErSzG.pdf, Extracted data points- 
+ {'name': 'Akshaya B', 'mobile_numbers': ['9003131479'], 'emails': ['akshaya.b1811@gmail.com'], 'linkedin': ['https://www.linkedin.com/in/akshaya-balakrishnan/'], 'location': 'Kattupakkam'}
+2021-05-02 06:39:06,727 - __main__ - INFO - Recieved a post request
+2021-05-02 06:39:06,727 - __main__ - INFO - Authenticated user 'markabbot' with key '123abc456'
+2021-05-02 06:39:07,452 - __main__ - INFO - Finished parsing resume- uploaded_files\Gary_Greenberg_resume_09_10_7B6tHzGENNqLPgEqRi5dqX.pdf, Extracted data points- 
+ {'name': 'Palo Alto', 'mobile_numbers': ['6504935643', '6502697902'], 'emails': ['gary.greenberg@sbcglobal.net'], 'linkedin': [], 'location': 'Palo Alto'}
