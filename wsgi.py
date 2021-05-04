@@ -2,8 +2,11 @@ from flask_app import app
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 import logging.config, logging
+from os import path
 
-logging.config.fileConfig("logging.conf", disable_existing_loggers=False)
+log_file_path = path.join(path.dirname(path.abspath(__file__)), "logging.conf")
+
+logging.config.fileConfig(log_file_path, disable_existing_loggers=False)
 
 sentry_sdk.init(
     dsn="https://51db7ee73f9d431dba99fe94a659e5c0@o611000.ingest.sentry.io/5748041",

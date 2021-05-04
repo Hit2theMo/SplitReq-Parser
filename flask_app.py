@@ -16,7 +16,9 @@ API_KEY = "123abc456"
 UPLOAD_PATH = "uploaded_files"
 BATCH_UNZIP_PATH = "batch_parsing"
 
-logging.config.fileConfig("logging.conf", disable_existing_loggers=False)
+log_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logging.conf")
+logging.config.fileConfig(log_file_path, disable_existing_loggers=False)
+
 logger = logging.getLogger(__name__)
 batch_logger = logging.getLogger("batch_parsing")
 
