@@ -1,0 +1,23 @@
+2021-05-04 04:45:03,613 - __main__ - INFO - Authenticated user 'markabbot' with key '123abc456'
+2021-05-04 04:45:03,958 - __main__ - INFO - Finished parsing resume- uploaded_files\BenDean_MMEa5AsHQgd7kNUifbQk68.pdf, Extracted data points- 
+ {'name': 'Ben Dean', 'mobile_numbers': ['9259182088', '9881993'], 'emails': ['ben@cadeans.com'], 'linkedin': 'http://www.linkedin.com/in/bendean', 'location': 'Beverly Hills & San Francisco'}
+2021-05-04 05:35:59,449 - flask_app - ERROR - Exception on /debug-sentry [GET]
+Traceback (most recent call last):
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\prodenv\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\prodenv\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\prodenv\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\prodenv\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\prodenv\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\prodenv\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "c:\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\flask_app.py", line 134, in trigger_error
+    division_by_zero = 1 / 0
+ZeroDivisionError: division by zero
+2021-05-04 05:39:09,331 - flask_app - INFO - Authenticated user 'markabbot' with key '123abc456'
+2021-05-04 05:39:09,680 - flask_app - INFO - Finished parsing resume- uploaded_files\BenDean_BRdbro5z5gvvFM9zwPQs9M.pdf, Extracted data points- 
+ {'name': 'Ben Dean', 'mobile_numbers': ['9259182088', '9881993'], 'emails': ['ben@cadeans.com'], 'linkedin': 'http://www.linkedin.com/in/bendean', 'location': 'Beverly Hills & San Francisco'}
