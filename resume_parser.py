@@ -26,7 +26,7 @@ def extractText(path, file_extension):
             txt = wordToText(path)
         except Exception:
             logger.critical(
-                "Error converting given Doc or Docx file into Text- {0}.{1}".format(path, file_extension))
+                "Error converting given Doc or Docx file into Text- {0}.{1}".format(path, file_extension), exc_info=True)
             return '', []
     elif file_extension.lower() == 'pdf':
         try:
@@ -35,7 +35,7 @@ def extractText(path, file_extension):
             hyperlinks = result[1]
         except Exception:
             logger.critical(
-                "Error converting given PDF file into Text- {0}.{1}".format(path, file_extension))
+                "Error converting given PDF file into Text- {0}.{1}".format(path, file_extension), exc_info=True)
             return '', []
     else:
         return '', []

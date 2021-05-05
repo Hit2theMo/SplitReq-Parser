@@ -68,7 +68,7 @@ def parseUnzippedResumes(path):
                 base64str = base64.b64encode(f.read()).decode("UTF-8")
         except Exception:
             logger.critical(
-                "Error converting unparsed resume Zip file to Base64 string"
+                "Error converting unparsed resume Zip file to Base64 string", exc_info=True
             )
             base64str = ""
 
