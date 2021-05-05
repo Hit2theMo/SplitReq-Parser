@@ -8,6 +8,7 @@ import time
 import logging
 import base64
 from zipfile import ZipFile
+from sentry_sdk import capture_message
 
 # logging.config.fileConfig('logging.conf')
 logger = logging.getLogger(__name__)
@@ -22,7 +23,7 @@ def generate_filename(org_name):
 
 
 def parseUnzippedResumes(path):
-    logger.info("Starting the Batch Parsing of {0}".format(path))
+    capture_message("Starting the Batch Parsing of {0}".format(path))
     file_names = os.listdir(path)
     # file_rename_dict = {}
     unparsed_resumes = []
@@ -75,7 +76,9 @@ def parseUnzippedResumes(path):
     final_batch_output["unparsed_resumes"] = unparsed_resumes
     final_batch_output["unparsed_resume_zip_as_base64"] = base64str
     json_object = json.dumps(final_batch_output, indent=4)
-
+    capture_message(
+        "Finished processing batch file- {0}, JSON Result-{1}".format(path, json_object)
+    )
     return json_object
 
 

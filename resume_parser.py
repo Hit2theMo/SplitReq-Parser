@@ -142,9 +142,8 @@ def extractEmail(text, hyperlinks):
     #             return link
     emails = re.findall(
         "([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)", text)
-    if emails == []:
-        emails.append(None)
-    emails = list(set([e.lower() for e in emails]))
+    if emails:
+        emails = list(set([e.lower() for e in emails if e]))
     return emails
 
 # ----------------------------------------------------------------------------------------------------

@@ -21,8 +21,8 @@ path = r"uploaded_files\zipped_resume.zip"
 path = r"uploaded_files\Linda_Chang.zip"
 path = r"uploaded_files\zip_test_3.zip"
 # path = r"uploaded_files\zipzip_test_4.zip"
-# path = r"uploaded_files\zip_test_1.zip"
-path = r"uploaded_files\zip_test_4.zip"
+path = r"uploaded_files\zip_test_1.zip"
+# path = r"uploaded_files\zip_test_4.zip"
 # file_name, file_extension = os.path.splitext(path)
 file_name, file_extension = os.path.basename(path).split(".")
 

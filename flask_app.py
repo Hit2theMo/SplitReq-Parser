@@ -11,6 +11,7 @@ from batch_parsing import parseUnzippedResumes
 import logging
 import logging.config
 import shutil
+from sentry_sdk import capture_message
 
 API_KEY = "123abc456"
 UPLOAD_PATH = "uploaded_files"
@@ -114,13 +115,13 @@ def authenticate(headers, batch):
         api_token = headers["api-token"]
         if api_token == API_KEY:
             # print("Authenticated user '{0}' with key '{1}'".format(username, api_token))
-            logger.info(
+            capture_message(
                 "Authenticated user '{0}' with key '{1}'".format(username, api_token)
             )
             return "success", username
         else:
             # print("Authentication failed for user '{0}' with key '{1}'".format(username, api_token))
-            logger.info(
+            capture_message(
                 "Authentication failed for user '{0}', invalid key- '{1}'".format(
                     username, api_token
                 )
@@ -131,14 +132,10 @@ def authenticate(headers, batch):
 
 
 # =================================================================================================================================
-@app.route("/debug-sentry")
-def trigger_error():
-    division_by_zero = 1 / 0
-
 
 @app.route("/api/v1/cvparser/single", methods=["POST"])
 def parseResume():
-    # logger.info("Recieved a post request")
+    # capture_message("Recieved a post request")
     # Get headers
     headers = request.headers
     # Authenticate the POST request or return appt error messages
@@ -192,7 +189,7 @@ def parseResume():
         final_output = extractDataPoints(file_path, file_extn)
         if not final_output:
             raise Exception
-        logger.info(
+        capture_message(
             "Finished parsing resume- {0}, Extracted data points- \n {1}".format(
                 file_path, final_output
             )
