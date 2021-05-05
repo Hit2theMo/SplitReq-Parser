@@ -26,7 +26,7 @@ def extractText(path, file_extension):
             txt = wordToText(path)
         except Exception:
             logger.critical(
-                "Error converting given Doc or Docx file into Text- {0}.{1}".format(path, file_extension), exc_info=True)
+                "Error converting given Doc or Docx file into Text- {0}".format(path), exc_info=True)
             return '', []
     elif file_extension.lower() == 'pdf':
         try:
@@ -35,7 +35,7 @@ def extractText(path, file_extension):
             hyperlinks = result[1]
         except Exception:
             logger.critical(
-                "Error converting given PDF file into Text- {0}.{1}".format(path, file_extension), exc_info=True)
+                "Error converting given PDF file into Text- {0}".format(path), exc_info=True)
             return '', []
     else:
         return '', []
@@ -162,7 +162,7 @@ def extractLocation(spacy_doc):
 def extractDataPoints(path, file_extension):
     path = str(path)
     # print(path)
-    # logger.info("Starting Data extraction from the resume- {0}.{1}".format(path, file_extension))
+    # logger.info("Starting Data extraction from the resume- {0}".format(path))
     data_dict = {}
     try:
         text, hyperlinks = extractText(path, file_extension)
@@ -170,49 +170,49 @@ def extractDataPoints(path, file_extension):
             raise Exception
     except Exception:
         logger.exception(
-            "Error extracting text from the resume- {0}.{1}".format(path, file_extension))
+            "Error extracting text from the resume- {0}".format(path))
         return {}
     try:
         clean_text = cleanText(text)
     except Exception:
         logger.exception(
-            "Error performing text cleanup on the resume- {0}.{1}".format(path, file_extension))
+            "Error performing text cleanup on the resume- {0}".format(path))
         clean_text = ''
     try:
         spacy_doc = spacyProcessText(text)
     except Exception:
         logger.exception(
-            "Error processing text using Spacy on the resume- {0}.{1}".format(path, file_extension))
+            "Error processing text using Spacy on the resume- {0}".format(path))
         spacy_doc = ''
     try:
         name = extractName(spacy_doc)
     except Exception:
         logger.exception(
-            "Error extracting data point- 'Name' from the resume- {0}.{1}".format(path, file_extension))
+            "Error extracting data point- 'Name' from the resume- {0}".format(path))
         name = ''
     try:
         linkedin = extractLinkedIn(clean_text, spacy_doc, hyperlinks)
     except Exception:
         logger.exception(
-            "Error extracting data point- 'LinkedIn from the resume- {0}.{1}".format(path, file_extension))
+            "Error extracting data point- 'LinkedIn from the resume- {0}".format(path))
         linkedin = []
     try:
         mobile_numbers = extractMobileNumbers(clean_text)
     except Exception:
         logger.exception(
-            "Error extracting data point- 'Mobile Number' from the resume- {0}.{1}".format(path, file_extension))
+            "Error extracting data point- 'Mobile Number' from the resume- {0}".format(path))
         mobile_numbers = []
     try:
         emails = extractEmail(text, hyperlinks)
     except Exception:
         logger.exception(
-            "Error extracting data point- 'Emails' from the resume- {0}.{1}".format(path, file_extension))
+            "Error extracting data point- 'Emails' from the resume- {0}".format(path))
         emails = []
     try:
         location = extractLocation(spacy_doc)
     except Exception:
         logger.exception(
-            "Error extracting data point- 'Location' from the resume- {0}.{1}".format(path, file_extension))
+            "Error extracting data point- 'Location' from the resume- {0}".format(path))
         location = ''
 
     data_dict["name"] = name
