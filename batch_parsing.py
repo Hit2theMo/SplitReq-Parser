@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 def generate_filename(org_name):
     uuid = shortuuid.ShortUUID()
-    file_name = org_name.strip() + '_' + uuid.uuid()
+    file_name = org_name.strip() + "_" + uuid.uuid()
     return file_name
 
 
@@ -30,10 +30,10 @@ def parseUnzippedResumes(path):
     final_batch_output = {}
     for fn in file_names:
         try:
-            org_file_name, file_extn = fn.split('.')
+            org_file_name, file_extn = fn.split(".")
             org_file_name = org_file_name.strip()
             org_file_path = pathlib.PurePath(path, fn)
-            new_file_name = generate_filename(org_file_name).strip() + '.' + file_extn
+            new_file_name = generate_filename(org_file_name).strip() + "." + file_extn
             new_file_path = pathlib.PurePath(path, new_file_name)
             # file_rename_dict[fn] = new_file_name
             # Rename file to the new name
@@ -47,24 +47,29 @@ def parseUnzippedResumes(path):
             batch_output[new_file_name] = temp_dict
 
         except Exception as e:
-            logger.exception("Error in batch parser while parsing resume- {0}".format(fn))
-            unparsed_resumes.append(str(new_file_path))
+            logger.exception(
+                "Error in batch parser while parsing resume- {0}".format(fn)
+            )
+            if new_file_path:
+                unparsed_resumes.append(str(new_file_path))
             continue
 
-    zip_path = pathlib.PurePath(path, 'unparsed_resumes.zip')
+    zip_path = pathlib.PurePath(path, "unparsed_resumes.zip")
     # Zipping unparsed resumes
-    base64str = ''
+    base64str = ""
     if unparsed_resumes:
-        with ZipFile(zip_path, 'w') as zip:
+        with ZipFile(zip_path, "w") as zip:
             for fn in unparsed_resumes:
                 zip.write(fn)
         # Converting above Zip into Base64
         try:
-            with open(zip_path, 'rb') as f:
-                base64str = base64.b64encode(f.read()).decode('UTF-8')
+            with open(zip_path, "rb") as f:
+                base64str = base64.b64encode(f.read()).decode("UTF-8")
         except Exception:
-            logger.critical("Error converting unparsed resume Zip file to Base64 string")
-            base64str = ''
+            logger.critical(
+                "Error converting unparsed resume Zip file to Base64 string"
+            )
+            base64str = ""
 
     final_batch_output["output"] = batch_output
     final_batch_output["unparsed_resumes"] = unparsed_resumes
@@ -74,8 +79,8 @@ def parseUnzippedResumes(path):
     return json_object
 
 
-if __name__ == '__main__':
-    path = r'batch_parsing\ipNLfea4wEqA34W8YnFzoe'
+if __name__ == "__main__":
+    path = r"batch_parsing\ipNLfea4wEqA34W8YnFzoe"
     # path = r'batch_parsing\B5gK5FDw7U8jbgmmq7TR2J'
     print(json.loads(parseUnzippedResumes(path)))
     print(time.perf_counter())

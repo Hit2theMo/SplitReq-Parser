@@ -7,3 +7,5 @@ resumes
 uploaded_files
 batch_parsing
 prodenv
+logs/*
+*.log
