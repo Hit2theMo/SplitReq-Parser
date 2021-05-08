@@ -13,7 +13,7 @@ import logging.config
 import shutil
 from sentry_sdk import capture_message
 
-API_KEY = "123abc456"
+API_KEY = "ab8a7ff7-6659-4a44-b7d9-064612d825fa"
 UPLOAD_PATH = "uploaded_files"
 BATCH_UNZIP_PATH = "batch_parsing"
 

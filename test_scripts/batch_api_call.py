@@ -22,6 +22,8 @@ path = r"uploaded_files\Linda_Chang.zip"
 path = r"uploaded_files\zip_test_3.zip"
 # path = r"uploaded_files\zipzip_test_4.zip"
 path = r"uploaded_files\zip_test_1.zip"
+path = r'uploaded_files\batch_zip_test_5.zip'
+path = r'uploaded_files\Justin Yung.zip'
 # path = r"uploaded_files\zip_test_4.zip"
 # file_name, file_extension = os.path.splitext(path)
 file_name, file_extension = os.path.basename(path).split(".")
@@ -47,12 +49,17 @@ except Exception:
     )
 
 payload = {"ZipAsBase64String": base64str}
-headers = {"username": "markabbot", "api-token": "123abc456"}
+
+headers = {
+    "username": "markabbot", 
+    "api-token": "ab8a7ff7-6659-4a44-b7d9-064612d825fa"
+}
 res = requests.post(
-    "http://127.0.0.1:5000/api/v1/cvparser/batch",
+    "http://149.28.197.77/api/v1/cvparser/batch",
     json=json.dumps(payload),
     headers=headers,
 )
 # print(res.text)
 print(time.perf_counter())
 pprint(json.loads(res.text))
+print(res.json())

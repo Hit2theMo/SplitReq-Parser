@@ -1,0 +1,13 @@
+[program:parser]
+directory=/splitreq/parser
+command=/splitreq/parser/myvenv/bin/gunicorn -w 9 wsgi:app
+user=root
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+stderr_logfile=/var/log/splitreq/flask_parser.err.log
+stdout_logfile=/var/log/splitreq/flask_parser.out.log
+
+-------------------
+sudo supervisorctl stop all
