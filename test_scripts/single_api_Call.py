@@ -24,8 +24,9 @@ path = r"resumes\sample_CVs\Resume_1.docx"
 # Mult mobile nums - Wrong Name identification
 # path = r"resumes\Resumes_latest\Gary_Greenberg_resume_09_10.pdf"
 # path = r'uploaded_files\zipped_resume.zip'
-# path = r"resumes\sample_CVs\my_resume.pdf"
-path = r"uploaded_files\BenDean.pdf"
+path = r"resumes\sample_CVs\my_resume.pdf"
+path = r"C:\Users\Mohit Khanwale\Downloads\Eric_Sundby_Resume_eSolytics_Alterxy_Oracle_ETL_Developer.docx"
+# path = r"uploaded_files\BenDean.pdf"
 
 # file_name, file_extension = os.path.splitext(path)
 file_name, file_extension = os.path.basename(path).split(".")
@@ -51,16 +52,27 @@ except Exception:
     )
 
 
+# payload = {
+#     "ResumeAsBase64String": base64str,
+#     "file_name": file_name,
+#     "file_extension": file_extension
+# }
+
 payload = {
-    "ResumeAsBase64String": base64str,
-    "file_name": file_name,
-    "file_extension": file_extension,
+    'ResumeAsBase64String': base64str,
+    'file_name': file_name,
+    'file_extension': file_extension
 }
+
 headers = {"username": "markabbot", "api-token": "ab8a7ff7-6659-4a44-b7d9-064612d825fa"}
 
+# print(file_extension, file_name)
+# print(base64str)
+
+# http://149.28.197.77/api/v1/cvparser/single
 res = requests.post(
     "http://149.28.197.77/api/v1/cvparser/single",
-    json=json.dumps(payload),
+    json=payload,
     headers=headers,
 )
 print("response-", res)
@@ -68,4 +80,3 @@ print("response-", res)
 # print(res.json())
 print(time.perf_counter())
 pprint(json.loads(res.text))
-

@@ -153,7 +153,7 @@ def parseResume():
     # Read the Resume in Base64 Encoded string
     # Check if content-type= application/json has to be forced
     try:
-        payload = json.loads(request.get_json(force=True))
+        payload = request.get_json(force=True)
     except Exception:
         logger.exception("Incorrect JSON payload, request sent by {0}".format(username))
         return jsonify(invalid_json_payload)
@@ -233,7 +233,7 @@ def batchResumeParsing():
         return status
     # ------------------------------------------------------------------------------------------------
     try:
-        payload = json.loads(request.get_json(force=True))
+        payload = request.get_json(force=True)
     except Exception:
         batch_logger.exception("Incorrect JSON payload sent by {0}".format(username))
         return jsonify(invalid_json_payload)

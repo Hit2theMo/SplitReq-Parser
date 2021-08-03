@@ -51,12 +51,12 @@ except Exception:
 payload = {"ZipAsBase64String": base64str}
 
 headers = {
-    "username": "markabbot", 
+    "username": "markabbot",
     "api-token": "ab8a7ff7-6659-4a44-b7d9-064612d825fa"
 }
 res = requests.post(
     "http://149.28.197.77/api/v1/cvparser/batch",
-    json=json.dumps(payload),
+    json=payload,
     headers=headers,
 )
 # print(res.text)
