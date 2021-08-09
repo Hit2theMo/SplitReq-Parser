@@ -55,3 +55,4 @@ wasabi==0.8.2
 Werkzeug==1.0.1
 xlrd==1.2.0
 XlsxWriter==1.4.0
+sentry-sdk==1.0.0
