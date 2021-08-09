@@ -4,7 +4,7 @@ import base64
 import os
 import time
 from pprint import pprint
-
+from pathlib import PureWindowsPath
 # path = r'resumes\Other\non_indian_cvs\EY_Kitman Tsang_Cosec Mgr.docx'
 # path = r'resumes\best\Arindam_Presales.docx'
 path = r"resumes\sample_CVs\Resume_1.docx"
@@ -25,7 +25,10 @@ path = r"resumes\sample_CVs\Resume_1.docx"
 # path = r"resumes\Resumes_latest\Gary_Greenberg_resume_09_10.pdf"
 # path = r'uploaded_files\zipped_resume.zip'
 path = r"resumes\sample_CVs\my_resume.pdf"
-path = r"C:\Users\Mohit Khanwale\Downloads\Eric_Sundby_Resume_eSolytics_Alterxy_Oracle_ETL_Developer.docx"
+path = r"\mnt\C\Users\Mohit Khanwale\Downloads\Eric_Sundby_Resume_eSolytics_Alterxy_Oracle_ETL_Developer.docx"
+path = r"/mnt/c/Users/Mohit Khanwale/Desktop/SplitReq/SplitReq-Parser/resumes/sample_CVs/my_resume.pdf"
+path = r"\mnt\c\Users\Mohit Khanwale\Desktop\SplitReq\SplitReq-Parser\resumes\sample_CVs\my_resume.pdf"
+print("Converting Windows Path to Linux path on Linux OS---", PureWindowsPath(path).as_posix())
 # path = r"uploaded_files\BenDean.pdf"
 
 # file_name, file_extension = os.path.splitext(path)
@@ -34,7 +37,7 @@ file_name, file_extension = os.path.basename(path).split(".")
 print("file_name-", file_name)
 print("file_extension-", file_extension)
 try:
-    with open(path, "rb") as f:
+    with open(PureWindowsPath(path).as_posix(), "rb") as f:
         base64str = base64.b64encode(f.read()).decode("UTF-8")
 except UnicodeDecodeError:
     print(
@@ -43,13 +46,13 @@ except UnicodeDecodeError:
         __name__,
         1,
     )
-except Exception:
-    print(
-        "critical",
-        "Some other error occured while converting file to Base64 string",
-        __name__,
-        1,
-    )
+# except Exception:
+#     print(
+#         "critical",
+#         "Some other error occured while converting file to Base64 string",
+#         __name__,
+#         1,
+#     )
 
 
 # payload = {
@@ -71,7 +74,7 @@ headers = {"username": "markabbot", "api-token": "ab8a7ff7-6659-4a44-b7d9-064612
 
 # http://149.28.197.77/api/v1/cvparser/single
 res = requests.post(
-    "http://149.28.197.77/api/v1/cvparser/single",
+    "http://127.0.0.1:5000/api/v1/cvparser/single",
     json=payload,
     headers=headers,
 )
