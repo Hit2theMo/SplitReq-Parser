@@ -2,6 +2,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 myvenv
+linuxenv
 .vscode
 resumes
 uploaded_files
