@@ -1,17 +1,22 @@
-import pathlib
-from resume_parser import extractDataPoints
-import os
-import shortuuid
-from pprint import pprint
-import json
-import time
-import logging
 import base64
+# from pprint import pprint
+import json
+import logging
+import os
+import pathlib
+import time
 from zipfile import ZipFile
+
+import shortuuid
+from celery import Celery
 from sentry_sdk import capture_message
+
+from resume_parser import extractDataPoints
 
 # logging.config.fileConfig('logging.conf')
 logger = logging.getLogger(__name__)
+celery_app = Celery('batch_parsing', broker='redis://localhost:6379/0',
+                    backend='redis://localhost:6379/0')
 
 # logger = logging.getLogger('batch_parsing')
 
@@ -22,7 +27,9 @@ def generate_filename(org_name):
     return file_name
 
 
+@celery_app.task()
 def parseUnzippedResumes(path):
+    logger.info('Got Request - Starting work ')
     capture_message("Starting the Batch Parsing of {0}".format(path))
     file_names = os.listdir(path)
     # file_rename_dict = {}
@@ -49,7 +56,7 @@ def parseUnzippedResumes(path):
 
         except Exception as e:
             logger.exception(
-                "Error in batch parser while parsing resume- {0}".format(fn)
+                f"Error in batch parser while parsing resume- {fn}- {e}"
             )
             if new_file_path:
                 unparsed_resumes.append(str(new_file_path))
@@ -79,6 +86,7 @@ def parseUnzippedResumes(path):
     capture_message(
         "Finished processing batch file- {0}, JSON Result-{1}".format(path, json_object)
     )
+    logger.info('Work Finished ')
     return json_object
 
 

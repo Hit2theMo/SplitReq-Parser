@@ -4,7 +4,8 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk import capture_message
 
-import logging.config, logging
+import logging.config
+import logging
 from os import path
 
 log_file_path = path.join(path.dirname(path.abspath(__file__)), "logging.conf")

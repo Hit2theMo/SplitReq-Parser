@@ -5,6 +5,7 @@ import base64
 import os
 import time
 from pprint import pprint
+from pathlib import PureWindowsPath
 
 # log_file_path = os.path.join('logs', 'sample.log')
 
@@ -31,7 +32,7 @@ file_name, file_extension = os.path.basename(path).split(".")
 print(file_name)
 print(file_extension)
 try:
-    with open(path, "rb") as f:
+    with open(PureWindowsPath(path).as_posix(), "rb") as f:
         base64str = base64.b64encode(f.read()).decode("UTF-8")
 except UnicodeDecodeError:
     print(
@@ -55,11 +56,12 @@ headers = {
     "api-token": "ab8a7ff7-6659-4a44-b7d9-064612d825fa"
 }
 res = requests.post(
-    "http://149.28.197.77/api/v1/cvparser/batch",
+    # "http://149.28.197.77/api/v1/cvparser/batch",
+    "http://127.0.0.1:5000/api/v1/cvparser/batch",
     json=payload,
     headers=headers,
 )
 # print(res.text)
 print(time.perf_counter())
-pprint(json.loads(res.text))
-print(res.json())
+pprint(res.text)
+# print(res.json())

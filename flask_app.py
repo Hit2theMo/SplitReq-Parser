@@ -1,17 +1,20 @@
 # from datetime import datetime, date
-from resume_parser import extractDataPoints
-from flask import Flask, jsonify, request
-import json
-import os
 import base64
-import shortuuid
-import pathlib
-import zipfile
-from batch_parsing import parseUnzippedResumes
 import logging
 import logging.config
+# import json
+import os
+import pathlib
 import shutil
+import zipfile
+
+import shortuuid
+from celery import Celery
+from flask import Flask, jsonify, request
 from sentry_sdk import capture_message
+
+# from batch_parsing import parseUnzippedResumes
+from resume_parser import extractDataPoints
 
 API_KEY = "ab8a7ff7-6659-4a44-b7d9-064612d825fa"
 UPLOAD_PATH = "uploaded_files"
@@ -34,6 +37,8 @@ batch_logger = logging.getLogger("batch_parsing")
 
 app = Flask(__name__)
 # app.logger.addHandler(flask_file_handler)
+simple_app = Celery('batch_parsing', broker='redis://localhost:6379/0',
+                    backend='redis://localhost:6379/0')
 
 username_err_msg = {
     "Error": "Invalid Account",
@@ -158,11 +163,7 @@ def parseResume():
         logger.exception("Incorrect JSON payload, request sent by {0}".format(username))
         return jsonify(invalid_json_payload)
 
-    if (
-        "ResumeAsBase64String" in payload
-        and "file_extension" in payload
-        and "file_name" in payload
-    ):
+    if ("ResumeAsBase64String" in payload and "file_extension" in payload and "file_name" in payload):
         b64str = payload["ResumeAsBase64String"]
         file_extn = payload["file_extension"]
         org_file_name = payload["file_name"]
@@ -265,34 +266,65 @@ def batchResumeParsing():
         )
         return jsonify(unzip_err)
     # ------------------------------------------------------------------------------------------------
-    try:
-        batch_output = parseUnzippedResumes(unzip_path)
-        if not batch_output:
-            raise Exception
-    except Exception:
-        batch_logger.critical(
-            "Error extracting data points from given resume batch, request sent by user- {0}".format(
-                username
-            ),
-            exc_info=True,
-        )
-        return jsonify(invalid_batch)
+    # try:
+    #     batch_output = parseUnzippedResumes(unzip_path)
+    #     if not batch_output:
+    #         raise Exception
+    # except Exception:
+    #     batch_logger.critical(
+    #         "Error extracting data points from given resume batch, request sent by user- {0}".format(
+    #             username
+    #         ),
+    #         exc_info=True,
+    #     )
+    #     return jsonify(invalid_batch)
+    # #####################################################################
+    r = simple_app.send_task('batch_parsing.parseUnzippedResumes',
+                             kwargs={'path': str(unzip_path)}, countdown=15)
+    app.logger.info(r.backend)
+    # except Exception:
+    #     batch_logger.critical(
+    #         "Error extracting data points from given resume batch, request sent by user- {0}".format(
+    #             username
+    #         ),
+    #         exc_info=True,
+    #     )
+    #     return jsonify(invalid_batch)
     # ------------------------------------------------------------------------------------------------
     # Delete the zip file resume
-    try:
-        # Remove Uploaded zip file
-        if os.path.isfile(zip_file_path):
-            # print(zip_file_path)
-            os.remove(zip_file_path)
-        # remove unzipped files and folders
-        # print(unzip_path)
-        shutil.rmtree(unzip_path)
-    except Exception:
-        logger.exception(
-            "Error deleting parsed resume file- {0}.{1}".format(zip_file_path, "zip")
-        )
-    return jsonify(batch_output)
+    # try:
+    #     # Remove Uploaded zip file
+    #     if os.path.isfile(zip_file_path):
+    #         # print(zip_file_path)
+    #         os.remove(zip_file_path)
+    #     # remove unzipped files and folders
+    #     # print(unzip_path)
+    #     shutil.rmtree(unzip_path)
+    # except Exception:
+    #     logger.exception(
+    #         "Error deleting parsed resume file- {0}.{1}".format(zip_file_path, "zip")
+    #     )
+    return jsonify(r.id)
+
+
+@app.route('/api/v1/cvparser/batch/task_status/<task_id>')
+def get_status(task_id):
+    status = simple_app.AsyncResult(task_id, app=simple_app)
+    print("Invoking Method ")
+    if str(status.state) == 'SUCCESS':
+        result = simple_app.AsyncResult(task_id).result
+        return jsonify(result)
+    else:
+        return "Status of the Task " + str(status.state)
+
+
+# @app.route('/api/v1/cvparser/batch/task_result/<task_id>')
+# def task_result(task_id):
+#     result = simple_app.AsyncResult(task_id).result
+#     return jsonify(result)
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
+# celery --broker=redis://localhost:6379/0 flower --port=8080
+# celery -A tasks worker --loglevel=INFO
