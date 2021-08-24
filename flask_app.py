@@ -12,7 +12,7 @@ import shortuuid
 from celery import Celery
 from flask import Flask, jsonify, request
 from sentry_sdk import capture_message
-
+from redis import Redis
 # from batch_parsing import parseUnzippedResumes
 from resume_parser import extractDataPoints
 
@@ -37,6 +37,7 @@ batch_logger = logging.getLogger("batch_parsing")
 
 app = Flask(__name__)
 # app.logger.addHandler(flask_file_handler)
+redis_obj = Redis(host='localhost', port='6379')
 simple_app = Celery('batch_parsing', broker='redis://localhost:6379/0',
                     backend='redis://localhost:6379/0')
 
@@ -136,7 +137,22 @@ def authenticate(headers, batch):
         return jsonify(invalid_token_err), username
 
 
+def deleteZipUnzipFiles(zip_file_path, unzip_path):
+    try:
+        # Remove Uploaded zip file
+        if os.path.isfile(zip_file_path):
+            # print(zip_file_path)
+            os.remove(zip_file_path)
+        # remove unzipped files and folders
+        # print(unzip_path)
+        shutil.rmtree(unzip_path)
+    except Exception:
+        logger.exception(
+            "Error deleting parsed resume file- {0}.{1}".format(zip_file_path, "zip")
+        )
+
 # =================================================================================================================================
+
 
 @app.route("/api/v1/cvparser/single", methods=["POST"])
 def parseResume():
@@ -280,8 +296,11 @@ def batchResumeParsing():
     #     return jsonify(invalid_batch)
     # #####################################################################
     r = simple_app.send_task('batch_parsing.parseUnzippedResumes',
-                             kwargs={'path': str(unzip_path)}, countdown=15)
+                             kwargs={'path': str(unzip_path)}, countdown=22)
     app.logger.info(r.backend)
+    redis_obj.set(f"zip_path_{r.id}", str(zip_file_path))
+    redis_obj.set(f"unzip_path_{r.id}", str(unzip_path))
+    # g.unzip_path = unzip_path
     # except Exception:
     #     batch_logger.critical(
     #         "Error extracting data points from given resume batch, request sent by user- {0}".format(
@@ -307,12 +326,20 @@ def batchResumeParsing():
     return jsonify(r.id)
 
 
-@app.route('/api/v1/cvparser/batch/task_status/<task_id>')
+@app.route('/api/v1/cvparser/batch/task_result/<task_id>')
 def get_status(task_id):
     status = simple_app.AsyncResult(task_id, app=simple_app)
     print("Invoking Method ")
     if str(status.state) == 'SUCCESS':
         result = simple_app.AsyncResult(task_id).result
+        redis_keys = [f'zip_path_{task_id}', f'unzip_path_{task_id}']
+        zip_file_path = redis_obj.get(redis_keys[0])
+        unzip_path = redis_obj.get(redis_keys[1])
+        print(zip_file_path, unzip_path, redis_keys)
+        deleteZipUnzipFiles(zip_file_path, unzip_path)
+        # add logic to delete files after X amount after task completion
+
+        redis_obj.delete(*redis_keys)
         return jsonify(result)
     else:
         return "Status of the Task " + str(status.state)
@@ -327,4 +354,4 @@ def get_status(task_id):
 if __name__ == "__main__":
     app.run(debug=True)
 # celery --broker=redis://localhost:6379/0 flower --port=8080
-# celery -A tasks worker --loglevel=INFO
+# celery -A batch_parsing  worker --loglevel=INFO

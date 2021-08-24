@@ -10,3 +10,4 @@ batch_parsing
 prodenv
 logs/*
 *.log
+dump.rdb
