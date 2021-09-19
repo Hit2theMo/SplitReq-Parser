@@ -23,7 +23,7 @@ def extractText(path, file_extension):
     path = Path(path)
     if file_extension.lower() in ("docx", "doc"):
         try:
-            txt = wordToText(path)
+            txt = wordToText(str(path))
         except Exception:
             logger.critical(
                 "Error converting given Doc or Docx file into Text- {0}".format(path), exc_info=True)

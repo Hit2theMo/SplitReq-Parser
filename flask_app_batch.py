@@ -14,7 +14,7 @@ from flask import Flask, jsonify, request
 from sentry_sdk import capture_message
 from redis import Redis
 # from batch_parsing import parseUnzippedResumes
-from resume_parser import extractDataPoints
+# from resume_parser import extractDataPoints
 
 API_KEY = "ab8a7ff7-6659-4a44-b7d9-064612d825fa"
 UPLOAD_PATH = "uploaded_files"
@@ -38,7 +38,7 @@ batch_logger = logging.getLogger("batch_parsing")
 app = Flask(__name__)
 # app.logger.addHandler(flask_file_handler)
 redis_obj = Redis(host='localhost', port='6379')
-simple_app = Celery('batch_parsing', broker='redis://localhost:6379/0',
+celery_app = Celery('batch_parsing', broker='redis://localhost:6379/0',
                     backend='redis://localhost:6379/0')
 
 username_err_msg = {
@@ -154,86 +154,6 @@ def deleteZipUnzipFiles(zip_file_path, unzip_path):
 # =================================================================================================================================
 
 
-@app.route("/api/v1/cvparser/single", methods=["POST"])
-def parseResume():
-    # capture_message("Recieved a post request")
-    # Get headers
-    headers = request.headers
-    # Authenticate the POST request or return appt error messages
-    try:
-        status, username = authenticate(headers, batch=False)
-    except Exception:
-        logger.critical(
-            "Error while authenticating a POST request at endpoint- '/api/v1/cvparser/single'\n",
-            exc_info=True,
-        )
-        return jsonify(invalid_token_err)
-    if status != "success":
-        return status
-    # ------------------------------------------------------------------------------------------------
-    # Read the Resume in Base64 Encoded string
-    # Check if content-type= application/json has to be forced
-    try:
-        payload = request.get_json(force=True)
-    except Exception:
-        logger.exception("Incorrect JSON payload, request sent by {0}".format(username))
-        return jsonify(invalid_json_payload)
-
-    if ("ResumeAsBase64String" in payload and "file_extension" in payload and "file_name" in payload):
-        b64str = payload["ResumeAsBase64String"]
-        file_extn = payload["file_extension"]
-        org_file_name = payload["file_name"]
-    else:
-        return jsonify(invalid_json_payload)
-    # ------------------------------------------------------------------------------------------------
-    # Convert Resume from Base64 String to Document
-    unique_file_name = generate_filename(False, org_file_name)
-    try:
-        file_path = base64ToDocument(b64str, UPLOAD_PATH, unique_file_name, file_extn)
-    except Exception:
-        logger.exception(
-            "Invalid Base64 string- Error converting Resume from Base64 string to file, request sent by user- {0}".format(
-                username
-            )
-        )
-        return jsonify(invalid_b64_doc)
-    # if file_path == 'fail':
-    #     return jsonify(invalid_b64_doc)
-    # ------------------------------------------------------------------------------------------------
-    # Call the Parsing script and send the file path as param
-    # print(file_path)
-    try:
-        final_output = extractDataPoints(file_path, file_extn)
-        if not final_output:
-            raise Exception
-        capture_message(
-            "Finished parsing resume- {0}, Extracted data points- \n {1}".format(
-                file_path, final_output
-            )
-        )
-    except Exception:
-        logger.critical(
-            "Error extracting data points from provided resume file- {0}, request sent by user- {1}".format(
-                file_path, username
-            ),
-            exc_info=True,
-        )
-        return jsonify(unparsable_resume)
-    # ------------------------------------------------------------------------------------------------
-    # Delete the parsed resume
-    try:
-        if os.path.isfile(file_path):
-            os.remove(file_path)
-    except Exception:
-        logger.exception(
-            "Error deleting parsed resume file- {0}.{1}".format(file_path, file_extn)
-        )
-    return jsonify(final_output)
-
-
-# =================================================================================================================================
-
-
 @app.route("/api/v1/cvparser/batch", methods=["POST"])
 def batchResumeParsing():
     headers = request.headers
@@ -295,7 +215,7 @@ def batchResumeParsing():
     #     )
     #     return jsonify(invalid_batch)
     # #####################################################################
-    r = simple_app.send_task('batch_parsing.parseUnzippedResumes',
+    r = celery_app.send_task('batch_parsing.parseUnzippedResumes',
                              kwargs={'path': str(unzip_path)}, countdown=22)
     app.logger.info(r.backend)
     redis_obj.set(f"zip_path_{r.id}", str(zip_file_path))
@@ -328,10 +248,10 @@ def batchResumeParsing():
 
 @app.route('/api/v1/cvparser/batch/task_result/<task_id>')
 def get_status(task_id):
-    status = simple_app.AsyncResult(task_id, app=simple_app)
+    status = celery_app.AsyncResult(task_id, app=celery_app)
     print("Invoking Method ")
     if str(status.state) == 'SUCCESS':
-        result = simple_app.AsyncResult(task_id).result
+        result = celery_app.AsyncResult(task_id).result
         redis_keys = [f'zip_path_{task_id}', f'unzip_path_{task_id}']
         zip_file_path = redis_obj.get(redis_keys[0])
         unzip_path = redis_obj.get(redis_keys[1])
@@ -347,7 +267,7 @@ def get_status(task_id):
 
 # @app.route('/api/v1/cvparser/batch/task_result/<task_id>')
 # def task_result(task_id):
-#     result = simple_app.AsyncResult(task_id).result
+#     result = celery_app.AsyncResult(task_id).result
 #     return jsonify(result)
 
 
@@ -355,3 +275,4 @@ if __name__ == "__main__":
     app.run(debug=True)
 # celery --broker=redis://localhost:6379/0 flower --port=8080
 # celery -A batch_parsing  worker --loglevel=INFO
+# redis-server

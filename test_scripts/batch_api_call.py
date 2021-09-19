@@ -61,7 +61,31 @@ res = requests.post(
     json=payload,
     headers=headers,
 )
+task_id = res.text
 # print(res.text)
-print(time.perf_counter())
-pprint(res.text)
+# print(time.perf_counter())
+pprint(task_id)
 # print(res.json())
+
+
+task_id = task_id.replace('\n', '')
+task_id = task_id.replace('\t', '')
+task_id = task_id.replace('\"', '')
+task_id = task_id.strip()
+
+print(len(str(task_id)), task_id)
+
+if len(str(task_id)) == 36:
+    new_res = requests.get(f"http://127.0.0.1:5000/api/v1/cvparser/batch/task_result/{task_id}")
+    pprint(new_res.text)
+else:
+    print('Unsuccessful')
+# print(res.json())
+
+while 'PENDING' in new_res.text:
+    new_res = requests.get(f"http://127.0.0.1:5000/api/v1/cvparser/batch/task_result/{task_id}")
+    try:
+        pprint(new_res.json())
+    except Exception:
+        pprint(new_res.text)
+    time.sleep(3)
