@@ -30,6 +30,7 @@ def generate_filename(org_name):
 @celery_app.task()
 def parseUnzippedResumes(path):
     logger.info('Got Request - Starting work ')
+    #raise ValueError('test')
     capture_message("Starting the Batch Parsing of {0}".format(path))
     file_names = os.listdir(path)
     # file_rename_dict = {}

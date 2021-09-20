@@ -76,6 +76,10 @@ unparsable_resume = {
     "Message": "Please send a valid parsable resume in either DOC, DOCX or PDF format",
 }
 
+task_status_pending = {
+    "Message": "Status of the task is Pending, please wait and check again later",
+}
+
 
 def generate_filename(batch, org_name=None):
     uuid = shortuuid.ShortUUID()
@@ -98,14 +102,9 @@ def unzipFile(base_unzip_path, uploaded_zip_path, zip_name):
 
 def base64ToDocument(data, path, file_name, extn):
     file_path = pathlib.PurePath(path, file_name + "." + extn.lower())
-    # try:
     with open(file_path, "wb") as fh:
         fh.write(base64.b64decode(data))
     return file_path
-    # except Exception:
-    #     return 'fail'
-    # else:
-    #     return file_path
 
 
 def authenticate(headers, batch):
@@ -189,8 +188,6 @@ def batchResumeParsing():
             )
         )
         return jsonify(invalid_b64_doc)
-    # if zip_file_path == 'fail':
-    #     return jsonify(invalid_b64_doc)
     # ------------------------------------------------------------------------------------------------
     try:
         unzip_path = unzipFile(BATCH_UNZIP_PATH, zip_file_path, unique_file_name)
@@ -201,74 +198,58 @@ def batchResumeParsing():
             )
         )
         return jsonify(unzip_err)
-    # ------------------------------------------------------------------------------------------------
-    # try:
-    #     batch_output = parseUnzippedResumes(unzip_path)
-    #     if not batch_output:
-    #         raise Exception
-    # except Exception:
-    #     batch_logger.critical(
-    #         "Error extracting data points from given resume batch, request sent by user- {0}".format(
-    #             username
-    #         ),
-    #         exc_info=True,
-    #     )
-    #     return jsonify(invalid_batch)
-    # #####################################################################
     r = celery_app.send_task('batch_parsing.parseUnzippedResumes',
-                             kwargs={'path': str(unzip_path)}, countdown=22)
+                             kwargs={'path': str(unzip_path)})  # countdown=10
     app.logger.info(r.backend)
     redis_obj.set(f"zip_path_{r.id}", str(zip_file_path))
     redis_obj.set(f"unzip_path_{r.id}", str(unzip_path))
-    # g.unzip_path = unzip_path
-    # except Exception:
-    #     batch_logger.critical(
-    #         "Error extracting data points from given resume batch, request sent by user- {0}".format(
-    #             username
-    #         ),
-    #         exc_info=True,
-    #     )
-    #     return jsonify(invalid_batch)
-    # ------------------------------------------------------------------------------------------------
-    # Delete the zip file resume
-    # try:
-    #     # Remove Uploaded zip file
-    #     if os.path.isfile(zip_file_path):
-    #         # print(zip_file_path)
-    #         os.remove(zip_file_path)
-    #     # remove unzipped files and folders
-    #     # print(unzip_path)
-    #     shutil.rmtree(unzip_path)
-    # except Exception:
-    #     logger.exception(
-    #         "Error deleting parsed resume file- {0}.{1}".format(zip_file_path, "zip")
-    #     )
-    return jsonify(r.id)
+    task_id_result = {
+        "Taskid": r.id,
+        "Message": "Task has been submitted and will start soon",
+    }
+    return jsonify(task_id_result)
 
 
 @app.route('/api/v1/cvparser/batch/task_result/<task_id>')
 def get_status(task_id):
-    status = celery_app.AsyncResult(task_id, app=celery_app)
-    print("Invoking Method ")
-    if str(status.state) == 'SUCCESS':
-        result = celery_app.AsyncResult(task_id).result
+    try:
+        celery_res = celery_app.AsyncResult(task_id, app=celery_app)
+        result = celery_res.result
         redis_keys = [f'zip_path_{task_id}', f'unzip_path_{task_id}']
         zip_file_path = redis_obj.get(redis_keys[0])
         unzip_path = redis_obj.get(redis_keys[1])
-        print(zip_file_path, unzip_path, redis_keys)
-        deleteZipUnzipFiles(zip_file_path, unzip_path)
-        # add logic to delete files after X amount after task completion
+        # print(zip_file_path, unzip_path, redis_keys)
+        # print("Invoking Method ")
+        if str(celery_res.state) == 'SUCCESS':
+            deleteZipUnzipFiles(zip_file_path, unzip_path)
+            redis_obj.delete(*redis_keys)
+            # add logic to delete files after X amount after task completion (if needed)
+            celery_res.forget()
+            return jsonify(result)
 
-        redis_obj.delete(*redis_keys)
-        return jsonify(result)
-    else:
-        return "Status of the Task " + str(status.state)
+        elif str(celery_res.state) == 'PENDING':
+            return jsonify(task_status_pending)
 
+        elif str(celery_res.state) == 'FAILURE':
+            task_status_failed = {
+                "Error": str(result),  # str(celery_res.traceback)
+                "Message": "Status of the task is Failed, please check the error and try again",
+            }
+            deleteZipUnzipFiles(zip_file_path, unzip_path)
+            redis_obj.delete(*redis_keys)
+            celery_res.forget()
+            return jsonify(task_status_failed)
 
-# @app.route('/api/v1/cvparser/batch/task_result/<task_id>')
-# def task_result(task_id):
-#     result = celery_app.AsyncResult(task_id).result
-#     return jsonify(result)
+        else:
+            task_status_failed = {
+                "Message": f"Something went wrong, status of the task is {celery_res.state}, please try again",
+            }
+    except Exception:
+        batch_logger.critical(
+            "Unexpected error while fetching task status from Celery, please check logs",
+            exc_info=True,
+        )
+        return jsonify(invalid_batch)
 
 
 if __name__ == "__main__":

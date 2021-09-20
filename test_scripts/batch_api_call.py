@@ -1,10 +1,9 @@
-from pprint import pprint
 import requests
 # import json
 import base64
 import os
 import time
-from pprint import pprint
+# from pprint import pprint
 from pathlib import PureWindowsPath
 
 # log_file_path = os.path.join('logs', 'sample.log')
@@ -29,8 +28,8 @@ path = r'uploaded_files\Justin Yung.zip'
 # file_name, file_extension = os.path.splitext(path)
 file_name, file_extension = os.path.basename(path).split(".")
 
-print(file_name)
-print(file_extension)
+print("file_name-", file_name)
+print("file_extension-", file_extension)
 try:
     with open(PureWindowsPath(path).as_posix(), "rb") as f:
         base64str = base64.b64encode(f.read()).decode("UTF-8")
@@ -61,10 +60,10 @@ res = requests.post(
     json=payload,
     headers=headers,
 )
-task_id = res.text
-# print(res.text)
+print(res.text)
+task_id = res.json()['Taskid']
 # print(time.perf_counter())
-pprint(task_id)
+
 # print(res.json())
 
 
@@ -73,19 +72,19 @@ task_id = task_id.replace('\t', '')
 task_id = task_id.replace('\"', '')
 task_id = task_id.strip()
 
-print(len(str(task_id)), task_id)
+# print(len(str(task_id)), task_id)
 
 if len(str(task_id)) == 36:
     new_res = requests.get(f"http://127.0.0.1:5000/api/v1/cvparser/batch/task_result/{task_id}")
-    pprint(new_res.text)
+    print(new_res.text)
 else:
     print('Unsuccessful')
 # print(res.json())
 
-while 'PENDING' in new_res.text:
+while 'PENDING' in new_res.text.upper():
     new_res = requests.get(f"http://127.0.0.1:5000/api/v1/cvparser/batch/task_result/{task_id}")
     try:
-        pprint(new_res.json())
+        print(new_res.json())
     except Exception:
-        pprint(new_res.text)
+        print(new_res.text)
     time.sleep(3)
